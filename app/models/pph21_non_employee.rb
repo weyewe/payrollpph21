@@ -5,6 +5,9 @@ class Pph21NonEmployee < ActiveRecord::Base
     
     validates_presence_of :nik
     validates_presence_of :name
+    validates_presence_of :marital_status
+    validates_presence_of :number_of_children
+    validates_presence_of :npwp_method
     validates_presence_of :office_id
     validates_presence_of :tax_code_id
     
@@ -63,7 +66,12 @@ class Pph21NonEmployee < ActiveRecord::Base
         new_object.office_id = params[:office_id]
         new_object.nik = params[:nik]
         new_object.name = params[:name]
+        new_object.address = params[:address]
+        new_object.npwp = params[:npwp]
+        new_object.marital_status = params[:marital_status]
+        new_object.number_of_children = params[:number_of_children]
         new_object.tax_code_id = params[:tax_code_id]
+        new_object.npwp_method = params[:npwp_method]
         
         new_object.save
         
@@ -75,7 +83,12 @@ class Pph21NonEmployee < ActiveRecord::Base
         self.office_id = params[:office_id]
         self.nik = params[:nik]
         self.name = params[:name]
+        self.address = params[:address]
+        self.npwp = params[:npwp]
+        self.marital_status = params[:marital_status]
+        self.number_of_children = params[:number_of_children]
         self.tax_code_id = params[:tax_code_id]
+        self.npwp_method = params[:npwp_method]
         
         self.save
         

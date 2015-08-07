@@ -64,7 +64,8 @@ RSpec.describe OvertimeAllocation, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
           
       @overtime = Overtime.create_object(
@@ -85,6 +86,12 @@ RSpec.describe OvertimeAllocation, type: :model do
       )
       
     overtime_allocation.should be_valid
+    
+    overtime_allocation.date.should == DateTime.new(2015,2,8)
+    overtime_allocation.start_time.should == 1080
+    overtime_allocation.end_time.should == 1260
+    overtime_allocation.description.should == "Overtime"
+    
   end
   
   it "should not allow object creation without employee id" do
@@ -234,18 +241,19 @@ RSpec.describe OvertimeAllocation, type: :model do
       @overtime_allocation.should be_valid
       
       @overtime_allocation.reload 
+      
+      @overtime_allocation.date.should == DateTime.new(2015,3,8)
+      @overtime_allocation.start_time.should == 1140
+      @overtime_allocation.end_time.should == 1260
+      @overtime_allocation.description.should == "-"
     end
     
     it "should be allowed to delete object 2" do
       @overtime_allocation_2.delete_object
       
       @overtime_allocation_2.should be_valid
-    end
-    
-    it "should not be allowed to unapprove object 2" do
-      @overtime_allocation_2.unapprove_object
       
-      @overtime_allocation_2.should be_valid
+      @overtime_allocation_2.is_deleted.should == true
     end
     
     context "has been deleted private leave" do
@@ -268,6 +276,11 @@ RSpec.describe OvertimeAllocation, type: :model do
             )
           
           @overtime_allocation_3.should be_valid
+          
+          @overtime_allocation_3.date.should == DateTime.new(2015,6,22)
+          @overtime_allocation_3.start_time.should == 1140
+          @overtime_allocation_3.end_time.should == 1260
+          @overtime_allocation_3.description.should == "Ban Bocor"
         end
     end
     
@@ -278,18 +291,16 @@ RSpec.describe OvertimeAllocation, type: :model do
         
         it "should update valid object" do
             @overtime_allocation_2.should be_valid
-        end
-        
-        it "should be allowed to delete object 2" do
-          @overtime_allocation_2.delete_object
-          
-          @overtime_allocation_2.should be_valid
+            
+            @overtime_allocation_2.is_approved.should == true
         end
         
         it "should be allowed to unapprove object 2" do
           @overtime_allocation_2.unapprove_object
           
           @overtime_allocation_2.should be_valid
+          
+          @overtime_allocation_2.is_approved.should == false
         end 
     end
     

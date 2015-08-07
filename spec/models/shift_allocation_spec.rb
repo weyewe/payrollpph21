@@ -64,7 +64,8 @@ RSpec.describe ShiftAllocation, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
           
       @employee_2 = Employee.create_object(
@@ -79,7 +80,8 @@ RSpec.describe ShiftAllocation, type: :model do
             :full_name => "Bambang",
             :nick_name => "Bams",
             :enroll_id => 14,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       @shift = Shift.create_object(
             :office_id => @office.id,
@@ -235,6 +237,9 @@ RSpec.describe ShiftAllocation, type: :model do
                   )
           
              @shift_allocation_2.should be_valid
+             
+             @shift_allocation_2.shift_id.should == @shift_allocation.shift_id
+             @shift_allocation_2.employee_id.should == @shift_allocation.employee_id
           end
           
       end

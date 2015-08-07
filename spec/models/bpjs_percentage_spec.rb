@@ -22,6 +22,10 @@ RSpec.describe BpjsPercentage, type: :model do
       )
       
     bpjs_percentage.should be_valid
+    
+    bpjs_percentage.employee_percentage.should == 2
+    bpjs_percentage.office_percentage.should == 4
+    bpjs_percentage.max_of_children.should == 3
   end
   
   it "should not allow object creation without office id" do
@@ -136,6 +140,10 @@ RSpec.describe BpjsPercentage, type: :model do
       @bpjs_percentage.should be_valid
       
       @bpjs_percentage.reload
+      
+      @bpjs_percentage.employee_percentage.should == 1
+      @bpjs_percentage.office_percentage.should == 3
+      @bpjs_percentage.max_of_children.should == 3
     end
     
     it "should not allow duplicate office id" do

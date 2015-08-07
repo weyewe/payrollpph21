@@ -64,7 +64,8 @@ RSpec.describe Attendance, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       
       @shift = Shift.create_object(
@@ -285,12 +286,17 @@ RSpec.describe Attendance, type: :model do
       @attendance.should be_valid
       
       @attendance.reload 
+      
+      @attendance.date.should == DateTime.new(2015,6,20)
+      @attendance.status.should == ATTENDANCE_STATUS[:absent]
     end
     
     it "should be allowed to delete object 2" do
       @attendance_2.delete_object
       
       @attendance_2.should be_valid
+      
+      @attendance_2.is_deleted.should == true
     end
   end
 end

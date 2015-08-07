@@ -64,7 +64,8 @@ RSpec.describe Job, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       
       @shift = Shift.create_object(
@@ -139,6 +140,10 @@ RSpec.describe Job, type: :model do
       )
       
     job.should be_valid
+    
+    job.start_date.should == DateTime.new(2015,2,8)
+    job.end_date.should == DateTime.new(2015,2,18)
+    job.destination.should == "Jakarta"
   end
   
   it "should not allow object creation without employee id" do
@@ -217,6 +222,33 @@ RSpec.describe Job, type: :model do
       Job.count.should == 2 
     end
     
+    it "should have 11 attendance" do
+        current_employee_id = @employee.id
+        
+        obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) & 
+            ((strftime("%Y-%m-%d",date).gte DateTime.new(2015,2,1).to_date) &
+                (strftime("%Y-%m-%d",date).lte DateTime.new(2015,2,28).to_date)) & 
+            (is_deleted.eq false)
+        }
+        
+        obj_attendance.count.should == 11
+    end
+    
+    it "should have 11 attendance with status duty" do
+        current_employee_id = @employee.id
+        
+        obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) & 
+            ((strftime("%Y-%m-%d",date).gte DateTime.new(2015,2,1).to_date) &
+                (strftime("%Y-%m-%d",date).lte DateTime.new(2015,2,28).to_date)) &
+            (status.eq ATTENDANCE_STATUS[:duty]) & 
+            (is_deleted.eq false)
+        }
+        
+        obj_attendance.count.should == 11
+    end
+    
     it "should create valid objects" do
       @job.should be_valid
       @job_2.should be_valid
@@ -233,12 +265,40 @@ RSpec.describe Job, type: :model do
       @job.should be_valid
       
       @job.reload 
+      
+      @job.start_date.should == DateTime.new(2015,4,8)
+      @job.end_date.should == DateTime.new(2015,4,18)
+      @job.destination.should == "Medan"
     end
     
     it "should be allowed to delete object 2" do
       @job_2.delete_object
       
       @job_2.should be_valid
+    end
+    
+    context "has been deleted object" do
+        before (:each) do
+            @job.delete_object
+        end
+        
+        it "should have valid deleted" do
+            @job.should be_valid
+        end
+        
+        it "should have 0 attendance" do
+            current_employee_id = @employee.id
+        
+            obj_attendance = Attendance.where{
+                (employee_id.eq current_employee_id) & 
+                ((strftime("%Y-%m-%d",date).gte DateTime.new(2015,2,1).to_date) &
+                    (strftime("%Y-%m-%d",date).lte DateTime.new(2015,2,28).to_date)) &
+                (status.eq ATTENDANCE_STATUS[:duty]) & 
+                (is_deleted.eq false)
+            }
+            
+            obj_attendance.count.should == 0
+        end
     end
   end
 end

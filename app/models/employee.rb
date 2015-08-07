@@ -39,7 +39,8 @@ class Employee < ActiveRecord::Base
     validates_presence_of :title_id
     validates_presence_of :level_id
     validates_presence_of :status_working_id
-    validates_presence_of :bank_id
+    # validates_presence_of :bank_id
+    validates_presence_of :start_working
     
     validate :valid_office_id
     validate :valid_branch_office_id
@@ -48,7 +49,7 @@ class Employee < ActiveRecord::Base
     validate :valid_title_id
     validate :valid_level_id
     validate :valid_status_working_id
-    validate :valid_bank_id
+    # validate :valid_bank_id
     validate :unique_code
     validate :unique_enroll_id
     
@@ -169,16 +170,16 @@ class Employee < ActiveRecord::Base
         end
     end
     
-    def valid_bank_id
-        return if not bank_id.present? 
+    # def valid_bank_id
+    #     return if not bank_id.present? 
         
-        object = Bank.find_by_id bank_id 
+    #     object = Bank.find_by_id bank_id 
         
-        if object.nil?
-            self.errors.add(:bank_id, "Harus ada bank id")
-            return self
-        end
-    end
+    #     if object.nil?
+    #         self.errors.add(:bank_id, "Harus ada bank id")
+    #         return self
+    #     end
+    # end
     
     def self.create_object( params ) 
         

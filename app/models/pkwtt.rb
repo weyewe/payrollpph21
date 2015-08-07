@@ -95,6 +95,7 @@ class Pkwtt < ActiveRecord::Base
         
         if new_object.save
             current_is_employee = params[:is_employee]
+            current_start_working = params[:start_date]
             
             #Insert into employee if this data not in employee table
             if current_is_employee == false
@@ -135,7 +136,9 @@ class Pkwtt < ActiveRecord::Base
                     :gender => new_gender,
                     :religion => new_religion,
                     :phone => new_phone,
-                    :address => new_address
+                    :address => new_address,
+                    :start_working => current_start_working,
+                    :identity_number => new_identity_number
                   )
                   
                 EmployeeContract.create_object(

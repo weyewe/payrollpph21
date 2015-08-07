@@ -64,7 +64,8 @@ RSpec.describe OtherIncome, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -77,6 +78,10 @@ RSpec.describe OtherIncome, type: :model do
       )
       
     other_income.should be_valid
+    
+    other_income.date.should == DateTime.new(2015,2,8)
+    other_income.is_taxable.should == true
+    other_income.value.should == 1250000
   end
   
   it "should not allow object creation without employee id" do
@@ -171,12 +176,18 @@ RSpec.describe OtherIncome, type: :model do
       @other_income.should be_valid
       
       @other_income.reload 
+      
+      @other_income.date.should == DateTime.new(2015,2,8)
+      @other_income.is_taxable.should == false
+      @other_income.value.should == 1250000
     end
     
     it "should be allowed to delete object 2" do
       @other_income_2.delete_object
       
       @other_income_2.should be_valid
+      
+      @other_income_2.is_deleted.should == true
     end
     
     context "has been deleted private other_income" do
@@ -197,6 +208,10 @@ RSpec.describe OtherIncome, type: :model do
             )
           
           @other_income_3.should be_valid
+          
+          @other_income_3.date.should == DateTime.new(2015,3,8)
+          @other_income_3.is_taxable.should == true
+          @other_income_3.value.should == 1250000
         end
     end
     

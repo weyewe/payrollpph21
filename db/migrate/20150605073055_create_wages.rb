@@ -7,21 +7,21 @@ class CreateWages < ActiveRecord::Migration
       t.integer :ptkp_id
       t.integer :jamsostek_id
       t.boolean :is_daily_basic, :default => false
-      t.float :basic_salary, :default => 0
+      t.decimal :basic_salary,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_seniority, :default => false
-      t.float :seniority_allowance, :default => 0
+      t.decimal :seniority_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_functional, :default => false
-      t.float :functional_allowance, :default => 0
+      t.decimal :functional_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_meal, :default => false
-      t.float :meal_allowance, :default => 0
+      t.decimal :meal_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_transport, :default => false
-      t.float :transport_allowance, :default => 0
+      t.decimal :transport_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_communication, :default => false
-      t.float :communication_allowance, :default => 0
+      t.decimal :communication_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_daily_medical, :default => false
-      t.float :medical_allowance, :default => 0
+      t.decimal :medical_allowance,  :default => 0,  :precision => 14, :scale => 2
       t.boolean :is_cooperative_member, :default => false
-      t.float :cooperative_dues
+      t.decimal :cooperative_dues,  :default => 0,  :precision => 14, :scale => 2
       
       t.timestamps
     end

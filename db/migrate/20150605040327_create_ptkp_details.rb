@@ -4,7 +4,7 @@ class CreatePtkpDetails < ActiveRecord::Migration
       t.integer :ptkp_id
       t.integer :marital_status
       t.integer :number_of_children
-      t.float :value
+      t.decimal :value,  :default => 0,  :precision => 14, :scale => 2
       t.string :description
       
       t.timestamps

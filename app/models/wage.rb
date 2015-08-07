@@ -91,21 +91,21 @@ class Wage < ActiveRecord::Base
         new_object.ptkp_id = params[:ptkp_id]
         new_object.jamsostek_id = params[:jamsostek_id]
         new_object.is_daily_basic = params[:is_daily_basic]
-        new_object.basic_salary = params[:basic_salary]
-        new_object.is_daily_seniority = params[:is_daily_seniority]
-        new_object.seniority_allowance = params[:seniority_allowance]
+        new_object.basic_salary = BigDecimal(params[:basic_salary] || '0')
+        new_object.is_daily_seniority = [:is_daily_seniority]
+        new_object.seniority_allowance = BigDecimal(params[:seniority_allowance] || '0')
         new_object.is_daily_functional = params[:is_daily_functional]
-        new_object.functional_allowance = params[:functional_allowance]
+        new_object.functional_allowance = BigDecimal(params[:functional_allowance] || '0')
         new_object.is_daily_meal = params[:is_daily_meal]
-        new_object.meal_allowance = params[:meal_allowance]
+        new_object.meal_allowance = BigDecimal(params[:meal_allowance] || '0')
         new_object.is_daily_transport = params[:is_daily_transport]
-        new_object.transport_allowance = params[:transport_allowance]
+        new_object.transport_allowance = BigDecimal(params[:transport_allowance] || '0')
         new_object.is_daily_communication = params[:is_daily_communication]
-        new_object.communication_allowance = params[:communication_allowance]
+        new_object.communication_allowance = BigDecimal(params[:communication_allowance] || '0')
         new_object.is_daily_medical = params[:is_daily_medical]
-        new_object.medical_allowance = params[:medical_allowance]
+        new_object.medical_allowance = BigDecimal(params[:medical_allowance] || '0')
         new_object.is_cooperative_member = params[:is_cooperative_member]
-        new_object.cooperative_dues = params[:cooperative_dues]
+        new_object.cooperative_dues = BigDecimal(params[:cooperative_dues] || '0')
         
         new_object.save
         
@@ -120,21 +120,21 @@ class Wage < ActiveRecord::Base
         self.ptkp_id = params[:ptkp_id]
         self.jamsostek_id = params[:jamsostek_id]
         self.is_daily_basic = params[:is_daily_basic]
-        self.basic_salary = params[:basic_salary]
-        self.is_daily_seniority = params[:is_daily_seniority]
-        self.seniority_allowance = params[:seniority_allowance]
+        self.basic_salary = BigDecimal(params[:basic_salary] || '0')
+        self.is_daily_seniority = [:is_daily_seniority]
+        self.seniority_allowance = BigDecimal(params[:seniority_allowance] || '0')
         self.is_daily_functional = params[:is_daily_functional]
-        self.functional_allowance = params[:functional_allowance]
+        self.functional_allowance = BigDecimal(params[:functional_allowance] || '0')
         self.is_daily_meal = params[:is_daily_meal]
-        self.meal_allowance = params[:meal_allowance]
+        self.meal_allowance = BigDecimal(params[:meal_allowance] || '0')
         self.is_daily_transport = params[:is_daily_transport]
-        self.transport_allowance = params[:transport_allowance]
+        self.transport_allowance = BigDecimal(params[:transport_allowance] || '0')
         self.is_daily_communication = params[:is_daily_communication]
-        self.communication_allowance = params[:communication_allowance]
+        self.communication_allowance = BigDecimal(params[:communication_allowance] || '0')
         self.is_daily_medical = params[:is_daily_medical]
-        self.medical_allowance = params[:medical_allowance]
+        self.medical_allowance = BigDecimal(params[:medical_allowance] || '0')
         self.is_cooperative_member = params[:is_cooperative_member]
-        self.cooperative_dues = params[:cooperative_dues]
+        self.cooperative_dues = BigDecimal(params[:cooperative_dues] || '0')
         
         self.save
         

@@ -453,19 +453,25 @@ RSpec.describe Recruitment, type: :model do
     it "should be allowed to delete object 2" do
       @recruitment_2.delete_object
       
-      @recruitment_2.should be_valid
+      @recruitment_2.persisted?.should be_falsy  # be_truthy 
+      
+      Recruitment.count.should == 1 
     end
     
     it "should be allowed to send to bank data" do
       @recruitment_2.send_to_bank_data
       
       @recruitment_2.should be_valid
+      
+      @recruitment_2.is_bank_data.should be_truthy
     end
     
-    it "should be allowed to send to bank data" do
+    it "should be allowed to send to recruitment data" do
       @recruitment_2.send_to_recruitment
       
       @recruitment_2.should be_valid
+      
+      @recruitment_2.is_bank_data.should be_falsy
     end
   end
 end

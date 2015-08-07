@@ -2,6 +2,7 @@ class WageTransaction < ActiveRecord::Base
     belongs_to :employee
     
     validates_presence_of :employee_id
+    validates_presence_of :year
     validates_presence_of :month
     validates_presence_of :basic_salary
     validates_presence_of :seniority_allowance
@@ -47,6 +48,7 @@ class WageTransaction < ActiveRecord::Base
         
         past_data_list = WageTransaction.where(
                 :employee_id => self.employee_id,
+                :year => self.year,
                 :month => self.month
             )
             
@@ -67,6 +69,7 @@ class WageTransaction < ActiveRecord::Base
         new_object = self.new
         
         new_object.employee_id = params[:employee_id]
+        new_object.year = params[:year]
         new_object.month = params[:month]
         new_object.basic_salary = params[:basic_salary]
         new_object.seniority_allowance = params[:seniority_allowance]
@@ -84,14 +87,25 @@ class WageTransaction < ActiveRecord::Base
         new_object.jkk = params[:jkk]
         new_object.jkm = params[:jkm]
         new_object.jht_company = params[:jht_company]
+        new_object.jp_company = params[:jp_company]
         new_object.bpjs_company = params[:bpjs_company]
         new_object.other_expense_taxable = params[:other_expense_taxable]
         new_object.other_expense_non_taxable = params[:other_expense_non_taxable]
         new_object.loan = params[:loan]
         new_object.cooperative_dues = params[:cooperative_dues]
         new_object.jht_employee = params[:jht_employee]
+        new_object.jp_employee = params[:jp_employee]
         new_object.bpjs_employee = params[:bpjs_employee]
+        new_object.bruto = params[:bruto]
+        new_object.biaya_jabatan = params[:biaya_jabatan]
+        new_object.netto = params[:netto]
+        new_object.netto_yearly = params[:netto_yearly]
+        new_object.ptkp = params[:ptkp]
+        new_object.pkp = params[:pkp]
+        new_object.pph_yearly = params[:pph_yearly]
         new_object.pph21_value = params[:pph21_value]
+        new_object.pph21_non_npwp = params[:pph21_non_npwp]
+        new_object.sisa_gaji = params[:sisa_gaji]
         
         new_object.save
         
@@ -101,6 +115,7 @@ class WageTransaction < ActiveRecord::Base
     # object.update_object 
     def update_object( params )
         self.employee_id = params[:employee_id]
+        self.year = params[:year]
         self.month = params[:month]
         self.basic_salary = params[:basic_salary]
         self.seniority_allowance = params[:seniority_allowance]
@@ -118,14 +133,25 @@ class WageTransaction < ActiveRecord::Base
         self.jkk = params[:jkk]
         self.jkm = params[:jkm]
         self.jht_company = params[:jht_company]
+        self.jp_company = params[:jp_company]
         self.bpjs_company = params[:bpjs_company]
         self.other_expense_taxable = params[:other_expense_taxable]
         self.other_expense_non_taxable = params[:other_expense_non_taxable]
         self.loan = params[:loan]
         self.cooperative_dues = params[:cooperative_dues]
         self.jht_employee = params[:jht_employee]
+        self.jp_employee = params[:jp_employee]
         self.bpjs_employee = params[:bpjs_employee]
+        self.bruto = params[:bruto]
+        self.biaya_jabatan = params[:biaya_jabatan]
+        self.netto = params[:netto]
+        self.netto_yearly = params[:netto_yearly]
+        self.ptkp = params[:ptkp]
+        self.pkp = params[:pkp]
+        self.pph_yearly = params[:pph_yearly]
         self.pph21_value = params[:pph21_value]
+        self.pph21_non_npwp = params[:pph21_non_npwp]
+        self.sisa_gaji = params[:sisa_gaji]
         
         self.save
         

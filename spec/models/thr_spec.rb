@@ -64,7 +64,8 @@ RSpec.describe Thr, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -76,6 +77,9 @@ RSpec.describe Thr, type: :model do
       )
       
     thr.should be_valid
+    
+    thr.date.should == DateTime.new(2015,2,8)
+    thr.value.should == 1250000
   end
   
   it "should not allow object creation without employee id" do
@@ -146,21 +150,26 @@ RSpec.describe Thr, type: :model do
       @thr.update_object(
           :employee_id => @employee.id,
           :date => DateTime.new(2015,2,8),
-          :value => 1250000
+          :value => 1350000
         )
         
       @thr.should be_valid
       
       @thr.reload 
+      
+      @thr.date.should == DateTime.new(2015,2,8)
+      @thr.value.should == 1350000
     end
     
     it "should be allowed to delete object 2" do
       @thr_2.delete_object
       
       @thr_2.should be_valid
+      
+      @thr_2.is_deleted.should be_truthy
     end
     
-    context "has been deleted private thr" do
+    context "has been deleted thr" do
         before(:each) do
             @thr_2.delete_object
         end
@@ -177,6 +186,9 @@ RSpec.describe Thr, type: :model do
             )
           
           @thr_3.should be_valid
+          
+          @thr_3.date.should == DateTime.new(2015,3,8)
+          @thr_3.value.should == 1250000
         end
     end
     

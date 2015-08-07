@@ -64,7 +64,8 @@ RSpec.describe EmployeeRelationship, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -166,17 +167,6 @@ RSpec.describe EmployeeRelationship, type: :model do
       @employee_relation.name.should == new_name
       @employee_relation.relationship.should == new_relationship
     end
-    
-    # it "should not allow duplicate code" do
-    #   @employee_relation_2.update_object(
-    #       :employee_id => @employee.id,
-    #       :name => @employee_relation_2_code,
-    #       :relationship => @employee_relation_2_name
-    #     )
-        
-    #   @employee_relation_2.errors.size.should_not == 0 
-    #   @employee_relation_2.should_not be_valid
-    # end
     
     it "should be allowed to delete object 2" do
       @employee_relation_2.delete_object

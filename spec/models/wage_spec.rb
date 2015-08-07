@@ -64,7 +64,8 @@ RSpec.describe Wage, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       
       @pph21 = Pph21.create_object(
@@ -86,7 +87,11 @@ RSpec.describe Wage, type: :model do
             :jkk_percentage => 0.24,
             :jkm_percentage => 0.3,
             :jht_employee_percentage => 2,
-            :jht_office_percentage => 3.7
+            :jht_office_percentage => 3.7,
+            :jp_employee_percentage => 1,
+            :jp_office_percentage => 2,
+            :jp_maximum_salary => 7000000
+            
           )
   end
   

@@ -17,8 +17,8 @@ class CreateEmployees < ActiveRecord::Migration
       t.integer :gender
       t.integer :religion
       t.string :address
-      t.string :no_jamsostek
-      t.datetime :jamsostek_registered_date
+      t.string :no_jamsostek, :default => ""
+      t.datetime :jamsostek_registered_date, :default => DateTime.now
       t.integer :bank_id
       t.string :bank_account
       t.string :bank_account_name

@@ -125,13 +125,27 @@ class Decree < ActiveRecord::Base
                 :id => params[:employee_id]
             ).first
             
-            object.update_object(
+            # puts ">>>>>>>>>> inside post-condition create decree\n"*10
+            # puts " the branch_office_id: #{params[:branch_office_id]}"
+            
+            object.office_id = params[:office_id]
+            object.branch_office_id = params[:branch_office_id]
+            object.department_id = params[:department_id]
+            object.division_id = params[:division_id]
+            object.title_id = params[:title_id]
+            object.save
+            
+            EmployeeOffice.create_object(
+                    :employee_id => params[:employee_id],
                     :office_id => params[:office_id],
                     :branch_office_id => params[:branch_office_id],
                     :department_id => params[:department_id],
                     :division_ide => params[:division_id],
                     :title_id => params[:title_id]
                 )
+                
+            # puts "total errors in employee object: #{object.errors.count}"
+            # object.errors.messages.each {|x| puts "err: #{x}" }
         end
         
         return new_object
@@ -167,13 +181,21 @@ class Decree < ActiveRecord::Base
                         :id => self.employee_id
                     )
                 
-                object.update_object(
-                        :office_id => current_office_id,
-                        :branch_office_id => current_branch_office_id,
-                        :department_id => current_department_id,
-                        :division_ide => current_division_id,
-                        :title_id => current_title_id
-                    )
+                object.office_id = current_office_id
+                object.branch_office_id = current_branch_office_id
+                object.department_id = current_department_id
+                object.division_id = current_division_id
+                object.title_id = current_title_id
+                object.save
+                
+                EmployeeOffice.create_object(
+                    :employee_id => self.employee_id,
+                    :office_id => current_office_id,
+                    :branch_office_id => current_branch_office_id,
+                    :department_id => current_department_id,
+                    :division_ide => current_division_id,
+                    :title_id => current_title_id
+                )
             end
         end
         

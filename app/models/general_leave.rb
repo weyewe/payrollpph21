@@ -56,8 +56,8 @@ class GeneralLeave < ActiveRecord::Base
                 (is_not_active.eq false )         #lt less than
             }.each do |x|
                 current_employee_id = x.id
-                current_date = self.date
-                current_description = self.description
+                current_date = params[:date]
+                current_description = params[:description]
                 
                 obj_leave_detail = LeaveDetail.where{
                     (employee_id.eq current_employee_id) &
@@ -73,18 +73,19 @@ class GeneralLeave < ActiveRecord::Base
                 obj_leave_detail.save
                 
                 #Find shift id, start time and duration dfault
-                obj_shift = Shift.joins(:shift_allocations).where{
-                    (shift_allocations.employee_id.eq x.id ) & 
-                    (start_time.gte 480)
-                }.first
-            
+                obj_shift = ShiftDetail.joins(:shift => [:shift_allocations => [:employee]]).where{   
+                        (shift.shift_allocations.employee_id.eq current_employee_id ) & 
+                        (start_time.gte 480) &
+                        (day_code.eq params[:date].wday)
+                    }.first
+                
                 Attendance.create_object(
                     :employee_id => x.id,
-                    :shift_id => obj_shift.id,
+                    :shift_id => obj_shift.shift_id,
                     :date => params[:date],
                     :status => ATTENDANCE_STATUS[:general_leave],
                     :time_in => obj_shift.start_time,
-                    :time_out => obj_shift.start_time + obj_shift.duration,
+                    :time_out => obj_shift.start_time + (obj_shift.duration * 60),
                     :description => params[:description] 
                 )
             end
@@ -118,7 +119,7 @@ class GeneralLeave < ActiveRecord::Base
                 obj_leave_detail = LeaveDetail.where{
                     (employee_id.eq current_employee_id) &
                     ((strftime("%Y-%m-%d",start_period).lte current_date.to_date) &
-                        (strftime("%Y-%m-%d",start_period).gte current_date.to_date))
+                        (strftime("%Y-%m-%d",end_period).gte current_date.to_date))
                 }.first
                 
                 current_leave = obj_leave_detail.current_leave

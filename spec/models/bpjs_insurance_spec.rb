@@ -64,7 +64,8 @@ RSpec.describe BpjsInsurance, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -78,6 +79,8 @@ RSpec.describe BpjsInsurance, type: :model do
       )
       
     bpjs_insurance.should be_valid
+    
+    bpjs_insurance.no.should == no
   end
   
   it "should not allow object creation without employee id" do
@@ -211,12 +214,18 @@ RSpec.describe BpjsInsurance, type: :model do
       @bpjs_insurance.should be_valid
       
       @bpjs_insurance.reload 
+      
+      @bpjs_insurance.date.should == DateTime.new(2015,4,8)
+      @bpjs_insurance.no.should == "JK182828"
+      @bpjs_insurance.premi.should == 2250000
     end
     
     it "should be allowed to delete object 2" do
       @bpjs_insurance_2.delete_object
       
       @bpjs_insurance_2.should be_valid
+      
+      @bpjs_insurance_2.is_deleted.should == true
     end
     
     context "has been deleted bpjs_insurance" do
@@ -237,6 +246,8 @@ RSpec.describe BpjsInsurance, type: :model do
             )
           
           @bpjs_insurance_3.should be_valid
+          
+          @bpjs_insurance_3.no.should == "JK182828"
         end
     end
   end

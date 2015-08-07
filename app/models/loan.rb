@@ -1,5 +1,6 @@
 class Loan < ActiveRecord::Base
     belongs_to :employee
+    has_many :loan_details
     
     validates_presence_of :employee_id
     validates_presence_of :date
@@ -98,6 +99,8 @@ class Loan < ActiveRecord::Base
             date_start = params[:installment_start]
             diff = params[:installment_time]
             
+            current_installment_value = params[:installment_value]
+            
             #Create loan detail installment
             (0.upto (diff-1)).each do |x|
                 the_date = date_start + x.months
@@ -105,7 +108,7 @@ class Loan < ActiveRecord::Base
                 LoanDetail.create_object(
                     :loan_id => new_object.id,
                     :month => the_date,
-                    :amount => params[:installment_value]
+                    :amount => current_installment_value
                 )
             end
         end
@@ -149,15 +152,22 @@ class Loan < ActiveRecord::Base
             return self
         end
         
+        #Delete Loan Detail
+        self.loan_details.each {|x| x.delete_object} 
+        
         self.is_deleted = true
         self.deleted_at = DateTime.now 
-        self.save 
+        self.save
     end
     
     #object.close_loan
     def close_loan ( params )
+        current_loan_id = self.id
+        current_month = params[:month]
+        current_interest = self.interest
+        
         obj_loan_detail = LoanDetail.where{
-            (loan_id.eq self.id) &
+            (loan_id.eq current_loan_id) &
             (is_closed.eq true)
         }.first
         
@@ -165,32 +175,50 @@ class Loan < ActiveRecord::Base
             self.errors.add(:loan, "cicilan sudah ditutup")
             return self
         else
-            leftover_installment = 0
-            LoanDetail.where{
-                (loan_id.eq self.id) &
-                (is_paid.eq false)
-            }.sum("amount")
+            #Get sisa cicilan
+            leftover_installment = LoanDetail.where{
+                    (loan_id.eq current_loan_id) &
+                    (is_paid.eq false) & 
+                    (is_deleted.eq false)
+                }.sum("amount")
+            
             
             if (leftover_installment == 0)
                 self.errors.add(:loan, "cicilan sudah lunas")
                 return self
             end
             
-            obj_installment = LoanDetail.where{
-                (loan_id.eq self.id) &
-                (is_paid.eq false)
+            #Update Loan Detail
+            new_amount = leftover_installment + (current_interest/100*leftover_installment)
+            
+            obj_loan_detail = LoanDetail.where{
+                (loan_id.eq current_loan_id) & 
+                (strftime("%Y-%m-%d",month).eq current_month.strftime("%Y-%m-%d"))
+            }.first
+            
+            obj_loan_detail.amount = new_amount
+            obj_loan_detail.description = "Close Loan on " + current_month.strftime("%Y-%m-%d").to_s
+            obj_loan_detail.is_closed = true
+            obj_loan_detail.save
+            
+            #Menghapus sisa cicilan yang belum terbayar
+            LoanDetail.where{
+                (loan_id.eq current_loan_id) &
+                (is_paid.eq false) & 
+                (is_deleted.eq false) &
+                (is_closed.eq false)
             }.each do |inst|
-                inst.destroy
+                inst.delete_object
             end
             
-            LoanDetail.create_object(
-                :loan_id => self.id,
-                :month => params[:month],
-                :amount => leftover_installment + (self.interest/100*leftover_installment),
-                :description => "Close Loan on " + params[:month],
-                :is_closed => true,
-                :is_paid => true
-            )
+            # LoanDetail.create_object(
+            #     :loan_id => current_loan_id,
+            #     :month => current_month,
+            #     :amount => new_amount,
+            #     :description => "Close Loan on " + current_month.strftime("%Y-%m-%d").to_s,
+            #     :is_closed => true,
+            #     :is_paid => true
+            # )
         end
     end
 end

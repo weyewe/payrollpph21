@@ -64,7 +64,8 @@ RSpec.describe Certificate, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -77,6 +78,9 @@ RSpec.describe Certificate, type: :model do
       )
       
     certificate.should be_valid
+    
+    certificate.no_certificate.should == "XX-YYYY-HHHH"
+    certificate.receiver.should == "Pebri"
   end
   
   it "should not allow object creation without employee id" do
@@ -171,12 +175,18 @@ RSpec.describe Certificate, type: :model do
       @certificate.should be_valid
       
       @certificate.reload 
+      
+      @certificate.no_certificate.should == "XX-YYYY-HHHH"
+      @certificate.received_at.should == DateTime.new(2015,2,18)
+      @certificate.receiver.should == "Pebri"
     end
     
     it "should be allowed to delete object 2" do
       @certificate_2.delete_object
       
       @certificate_2.should be_valid
+      
+      @certificate_2.is_deleted.should == true
     end
     
     it "should be allowed to returned certificate object 2" do
@@ -187,6 +197,10 @@ RSpec.describe Certificate, type: :model do
           )
       
       @certificate_2.should be_valid
+      
+      @certificate_2.is_returned.should == true
+      @certificate_2.returned_at.should == DateTime.new(2015,9,10)
+      @certificate_2.giver.should == "Andris"
     end
   end
 end

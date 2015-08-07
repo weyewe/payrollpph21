@@ -64,7 +64,8 @@ RSpec.describe Loan, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -297,7 +298,7 @@ RSpec.describe Loan, type: :model do
           :interest => 0,
           :total => 1500000,
           :installment_time => 15,
-          :installment_value => 150000,
+          :installment_value => 100000,
           :installment_start => DateTime.new(2015,1,1),
           :installment_end => DateTime.new(2016,3,31)
         )
@@ -312,10 +313,30 @@ RSpec.describe Loan, type: :model do
       @loan_2.should be_valid
     end
     
+    it "object loan should have 10 loan detail" do
+      current_loan_id = @loan.id
+      obj_loan_detail = LoanDetail.where{
+        (loan_id.eq current_loan_id) & 
+        (is_deleted.eq false)
+      }
+      
+      obj_loan_detail.count.should == 10
+    end
+    
+    it "object loan 2 should have 15 loan detail" do
+      current_loan_id = @loan_2.id
+      obj_loan_detail = LoanDetail.where{
+        (loan_id.eq current_loan_id) & 
+        (is_deleted.eq false)
+      }
+      
+      obj_loan_detail.count.should == 15
+    end
+    
     it "should be allowed to update" do
-      @loan.update_object(
+      @loan_2.update_object(
           :employee_id => @employee.id,
-          :date => DateTime.new(2015,2,8),
+          :date => DateTime.new(2015,4,8),
           :value => 2000000,
           :interest => 0,
           :total => 2000000,
@@ -325,9 +346,9 @@ RSpec.describe Loan, type: :model do
           :installment_end => DateTime.new(2015,10,31)
         )
         
-      @loan.should be_valid
+      @loan_2.should be_valid
       
-      @loan.reload 
+      @loan_2.reload 
     end
     
     it "should be allowed to delete object 2" do
@@ -336,21 +357,60 @@ RSpec.describe Loan, type: :model do
       @loan_2.should be_valid
     end
     
-    it "should be allowed to close loan" do
-      @loan_2.close_loan(
-          :month => DateTime.new(2015,1,1)
-      )
+    context "has been closed object" do
+      before(:each) do
+        @loan_2.close_loan(
+              :month => DateTime.new(2015,1,1)
+          )
+      end
       
-      @loan_2.should be_valid
+      it "should be allowed to close loan" do
+        @loan_2.should be_valid
+      end
+      
+      it "loan detail should have 1 row" do
+        current_loan_id = @loan_2.id
+        
+        obj_loan_detail = LoanDetail.where{
+          (loan_id.eq current_loan_id) & 
+          (is_deleted.eq false)
+        }
+        
+        obj_loan_detail.count.should == 1
+      end
+      
+      it "loan detail should have amount = 1500000" do    
+        current_loan_id = @loan_2.id
+        
+        obj_loan_detail = LoanDetail.where{
+          (loan_id.eq current_loan_id) &
+          (strftime("%Y-%m-%d",month).eq DateTime.new(2015,1,1).strftime("%Y-%m-%d")) &
+          (is_deleted.eq false) &
+          (is_closed.eq true)
+        }.first
+        
+        obj_loan_detail.amount.should == 1500000
+      end
     end
     
-    context "has been deleted private leave" do
+    context "has been deleted loan" do
         before(:each) do
             @loan_2.delete_object
         end
         
         it "should delete valid object" do
             @loan_2.should be_valid
+        end
+        
+        it "should have 0 loan detail" do
+          current_loan_id = @loan_2.id
+          
+          obj_loan_detail = LoanDetail.where{
+            (loan_id.eq current_loan_id) &
+            (is_deleted.eq false)
+          }
+          
+          obj_loan_detail.count.should == 0
         end
         
         it "should be allowed to create object 3" do
@@ -361,13 +421,36 @@ RSpec.describe Loan, type: :model do
               :interest => 0,
               :total => 1500000,
               :installment_time => 15,
-              :installment_value => 150000,
+              :installment_value => 100000,
               :installment_start => DateTime.new(2015,1,1),
               :installment_end => DateTime.new(2016,3,31)
             )
           
           @loan_3.should be_valid
         end
+    end
+    
+    it "should be allowed have 10 record of installment" do
+      current_loan_id = @loan.id
+      
+      obj_loan_detail = LoanDetail.where{
+        (loan_id.eq current_loan_id) & 
+        (is_deleted.eq false)
+      }
+      
+      obj_loan_detail.count.should == 10
+    end
+    
+    it "should be allowed have amount = 100000" do
+      current_loan_id = @loan.id
+      
+      obj_loan_detail = LoanDetail.where{
+        (loan_id.eq current_loan_id) &
+        (is_deleted.eq false)
+      }.first
+      
+      obj_loan_detail.loan_id.should == current_loan_id
+      obj_loan_detail.amount.should == 100000
     end
     
   end

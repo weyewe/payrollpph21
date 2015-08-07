@@ -61,7 +61,7 @@ class PtkpDetail < ActiveRecord::Base
         new_object.ptkp_id = params[:ptkp_id]
         new_object.marital_status = params[:marital_status]
         new_object.number_of_children = params[:number_of_children]
-        new_object.value = params[:value]
+        new_object.value = BigDecimal(params[:value] || '0')
         new_object.description = params[:description]
         
         new_object.save
@@ -74,7 +74,7 @@ class PtkpDetail < ActiveRecord::Base
         self.ptkp_id = params[:ptkp_id]
         self.marital_status = params[:marital_status]
         self.number_of_children = params[:number_of_children]
-        self.value = params[:value]
+        self.value = BigDecimal(params[:value] || '0')
         self.description = params[:description]
         
         self.save

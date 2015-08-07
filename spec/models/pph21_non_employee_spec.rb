@@ -20,7 +20,12 @@ RSpec.describe Pph21NonEmployee, type: :model do
         :office_id => @office.id,
         :nik => nik,
         :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should be_valid
@@ -34,8 +39,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee = Pph21NonEmployee.create_object( 
         :office_id => "",
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should_not be_valid
@@ -46,8 +56,64 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee = Pph21NonEmployee.create_object( 
         :office_id => 0,
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
+      )
+      
+    pph21_non_employee.should_not be_valid
+  end
+  
+  it "should not allow object creation without marital status" do
+    nik = "1234567890"
+    pph21_non_employee = Pph21NonEmployee.create_object( 
+        :office_id => @office.id,
+        :nik => nik,
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => "",
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
+      )
+      
+    pph21_non_employee.should_not be_valid
+  end
+  
+  it "should not allow object creation without number of children" do
+    nik = "1234567890"
+    pph21_non_employee = Pph21NonEmployee.create_object( 
+        :office_id => @office.id,
+        :nik => nik,
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => "",
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
+      )
+      
+    pph21_non_employee.should_not be_valid
+  end
+  
+  it "should not allow object creation without npwp_method" do
+    nik = "1234567890"
+    pph21_non_employee = Pph21NonEmployee.create_object( 
+        :office_id => @office.id,
+        :nik => nik,
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => "",
+        :tax_code_id => @tax_code.id,
+        :npwp_method => ""
       )
       
     pph21_non_employee.should_not be_valid
@@ -58,8 +124,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee = Pph21NonEmployee.create_object( 
         :office_id => @office.id,
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => ""
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => "",
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should_not be_valid
@@ -70,8 +141,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee = Pph21NonEmployee.create_object( 
         :office_id => @office.id,
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => 0
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => 0,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should_not be_valid
@@ -83,7 +159,12 @@ RSpec.describe Pph21NonEmployee, type: :model do
         :office_id => @office.id,
         :nik => nik,
         :name => "",
-        :tax_code_id => @tax_code.id
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should_not be_valid
@@ -94,8 +175,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee = Pph21NonEmployee.create_object( 
         :office_id => @office.id,
         :nik => "",
-        :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should_not be_valid
@@ -106,8 +192,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee =  Pph21NonEmployee.create_object( 
         :office_id => @office.id,
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee.should be_valid
@@ -115,8 +206,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
     pph21_non_employee_2 = Pph21NonEmployee.create_object( 
         :office_id => @office.id,
         :nik => nik,
-        :name => "Abdul Ro'uf",
-        :tax_code_id => @tax_code.id
+        :name => "Abdul Rou'uf",
+        :address => "Surabaya",
+        :npwp => "1234567890",
+        :marital_status => MARITAL_STATUS[:single],
+        :number_of_children => 0,
+        :tax_code_id => @tax_code.id,
+        :npwp_method => TAX_METHOD[:netto]
       )
       
     pph21_non_employee_2.should_not be_valid
@@ -130,7 +226,12 @@ RSpec.describe Pph21NonEmployee, type: :model do
           :office_id => @office.id,
           :nik => @pph21_non_employee_1_nik,
           :name => @pph21_non_employee_1_name,
-          :tax_code_id => @tax_code.id
+          :address => "Surabaya",
+          :npwp => "1234567890",
+          :marital_status => MARITAL_STATUS[:single],
+          :number_of_children => 0,
+          :tax_code_id => @tax_code.id,
+          :npwp_method => TAX_METHOD[:netto]
         )
         
       @pph21_non_employee_2_nik = "0987654321"
@@ -139,7 +240,12 @@ RSpec.describe Pph21NonEmployee, type: :model do
           :office_id => @office.id,
           :nik => @pph21_non_employee_2_nik,
           :name => @pph21_non_employee_2_name,
-          :tax_code_id => @tax_code.id
+          :address => "Surabaya",
+          :npwp => "",
+          :marital_status => MARITAL_STATUS[:single],
+          :number_of_children => 0,
+          :tax_code_id => @tax_code.id,
+          :npwp_method => TAX_METHOD[:netto]
         )
     end
     
@@ -160,7 +266,12 @@ RSpec.describe Pph21NonEmployee, type: :model do
           :office_id => @office.id,
           :nik => new_nik,
           :name => new_name,
-          :tax_code_id => @tax_code.id
+          :address => "Surabaya",
+          :npwp => "1234567890",
+          :marital_status => MARITAL_STATUS[:single],
+          :number_of_children => 0,
+          :tax_code_id => @tax_code.id,
+          :npwp_method => TAX_METHOD[:netto]
         )
         
       @pph21_non_employee.should be_valid
@@ -175,7 +286,13 @@ RSpec.describe Pph21NonEmployee, type: :model do
       @pph21_non_employee_2.update_object(
           :office_id => @office.id,
           :nik => @pph21_non_employee_1_nik,
-          :name => @pph21_non_employee_2_name
+          :name => @pph21_non_employee_2_name,
+          :address => "Surabaya",
+          :npwp => "1234567890",
+          :marital_status => MARITAL_STATUS[:single],
+          :number_of_children => 0,
+          :tax_code_id => @tax_code.id,
+          :npwp_method => TAX_METHOD[:netto]
         )
         
       @pph21_non_employee_2.errors.size.should_not == 0 

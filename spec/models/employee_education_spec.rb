@@ -64,7 +64,8 @@ RSpec.describe EmployeeEducation, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -166,17 +167,6 @@ RSpec.describe EmployeeEducation, type: :model do
       @employee_education.level.should == new_level
       @employee_education.range_year.should == new_range_year
     end
-    
-    # it "should not allow duplicate code" do
-    #   @employee_education_2.update_object(
-    #       :employee_id => @employee.id,
-    #       :name => @employee_education_2_level,
-    #       :relationship => @employee_education_2_range_year
-    #     )
-        
-    #   @employee_education_2.errors.size.should_not == 0 
-    #   @employee_education_2.should_not be_valid
-    # end
     
     it "should be allowed to delete object 2" do
       @employee_education_2.delete_object

@@ -31,6 +31,12 @@ RSpec.describe Preference, type: :model do
       )
       
     preference.should be_valid
+    
+    preference.ot_divider.should == 173
+    preference.biaya_jabatan_percentage.should == 5
+    preference.biaya_jabatan_max.should == 500000
+    preference.pph_non_npwp_percentage.should == 20
+    preference.dpp_percentage.should == 50
   end
   
   it "should not allow object creation without office id" do
@@ -245,6 +251,12 @@ RSpec.describe Preference, type: :model do
       @preference.should be_valid
       
       @preference.reload 
+      
+      @preference.ot_divider.should == 175
+      @preference.biaya_jabatan_percentage.should == 5
+      @preference.biaya_jabatan_max.should == 500000
+      @preference.pph_non_npwp_percentage.should == 20
+      @preference.dpp_percentage.should == 50
     end
     
     it "should not allow duplicate code" do

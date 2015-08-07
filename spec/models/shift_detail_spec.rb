@@ -173,6 +173,7 @@ RSpec.describe ShiftDetail, type: :model do
           
           @shift_detail.reload
           
+          @shift_detail.day_code.should == DAY_CODE[:wednesday]
           @shift_detail.start_time.should == new_start_time
           @shift_detail.duration.should == new_duration
       end

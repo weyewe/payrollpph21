@@ -4,10 +4,13 @@ class CreateJamsosteks < ActiveRecord::Migration
       t.integer :office_id
       t.string :code
       t.string :name
-      t.float :jkk_percentage
-      t.float :jkm_percentage
-      t.float :jht_employee_percentage
-      t.float :jht_office_percentage
+      t.decimal :jkk_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jkm_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jht_employee_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jht_office_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jp_employee_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jp_office_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :jp_maximum_salary, :default => 0,  :precision => 14, :scale => 2
       
       t.timestamps
     end

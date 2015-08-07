@@ -17,12 +17,22 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should be_valid
     
     jamsostek.code.should == code
+    jamsostek.jkk_percentage.should == 0.24
+    jamsostek.jkm_percentage.should == 0.3
+    jamsostek.jht_employee_percentage.should == 2
+    jamsostek.jht_office_percentage.should == 3.7
+    jamsostek.jp_employee_percentage.should == 1
+    jamsostek.jp_office_percentage.should == 2
+    jamsostek.jp_maximum_salary.should == 7000000
   end
   
   it "should not allow object creation without office id" do
@@ -34,7 +44,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -49,7 +62,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -64,7 +80,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -79,7 +98,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -94,7 +116,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => "",
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -109,7 +134,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -124,7 +152,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => -5,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -139,7 +170,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => "",
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -154,7 +188,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -169,7 +206,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => -7,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -184,7 +224,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => "",
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -199,7 +242,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 0,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -214,7 +260,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => -3,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -229,7 +278,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => ""
+        :jht_office_percentage => "",
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -244,7 +296,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 0
+        :jht_office_percentage => 0,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should_not be_valid
@@ -259,7 +314,172 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => -5
+        :jht_office_percentage => -5,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation without jp employee percentage" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => "",
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation with zero jp employee percentage" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 0,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation without jp employee percentage < 0" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => -3,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation without jp office percentage" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => "",
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation with zero jp office percentage" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 0,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation with jp office percentage < 0" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => -2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation without jp maximum salary" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => ""
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation with zero jp maximum salary" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 0
+      )
+      
+    jamsostek.should_not be_valid
+  end
+  
+  it "should not allow object creation with jp maximum salaary < 0" do
+    code = "JSTK2013"
+    jamsostek = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => -300000
       )
       
     jamsostek.should_not be_valid
@@ -274,7 +494,10 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek.should be_valid
@@ -286,7 +509,43 @@ RSpec.describe Jamsostek, type: :model do
         :jkk_percentage => 0.24,
         :jkm_percentage => 0.3,
         :jht_employee_percentage => 2,
-        :jht_office_percentage => 3.7
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek_2.should_not be_valid
+  end
+  
+  it "should not allow object creation with duplicate code" do
+    code = "JSTK2013"
+    jamsostek =  Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
+      )
+      
+    jamsostek.should be_valid
+    
+    jamsostek_2 = Jamsostek.create_object( 
+        :office_id => @office.id,
+        :code => code,
+        :name => "Jamsostek Aturan Tahun 2013",
+        :jkk_percentage => 0.24,
+        :jkm_percentage => 0.3,
+        :jht_employee_percentage => 2,
+        :jht_office_percentage => 3.7,
+        :jp_employee_percentage => 1,
+        :jp_office_percentage => 2,
+        :jp_maximum_salary => 7000000
       )
       
     jamsostek_2.should_not be_valid
@@ -303,7 +562,10 @@ RSpec.describe Jamsostek, type: :model do
           :jkk_percentage => 0.24,
           :jkm_percentage => 0.3,
           :jht_employee_percentage => 2,
-          :jht_office_percentage => 3.7
+          :jht_office_percentage => 3.7,
+          :jp_employee_percentage => 1,
+          :jp_office_percentage => 2,
+          :jp_maximum_salary => 7000000
         )
         
       @jamsostek_2_code = "JSTK2020"
@@ -315,7 +577,10 @@ RSpec.describe Jamsostek, type: :model do
           :jkk_percentage => 0.24,
           :jkm_percentage => 0.3,
           :jht_employee_percentage => 2,
-          :jht_office_percentage => 3.7
+          :jht_office_percentage => 3.7,
+          :jp_employee_percentage => 1,
+          :jp_office_percentage => 2,
+          :jp_maximum_salary => 7000000
         )
     end
     
@@ -339,7 +604,10 @@ RSpec.describe Jamsostek, type: :model do
           :jkk_percentage => 0.24,
           :jkm_percentage => 0.3,
           :jht_employee_percentage => 2,
-          :jht_office_percentage => 3.7
+          :jht_office_percentage => 3.7,
+          :jp_employee_percentage => 1,
+          :jp_office_percentage => 2,
+          :jp_maximum_salary => 7000000
         )
         
       @jamsostek.should be_valid
@@ -348,6 +616,13 @@ RSpec.describe Jamsostek, type: :model do
       
       @jamsostek.name.should == new_name
       @jamsostek.code.should == new_code
+      @jamsostek.jkk_percentage.should == 0.24
+      @jamsostek.jkm_percentage.should == 0.3
+      @jamsostek.jht_employee_percentage.should == 2
+      @jamsostek.jht_office_percentage.should == 3.7
+      @jamsostek.jp_employee_percentage.should == 1
+      @jamsostek.jp_office_percentage.should == 2
+      @jamsostek.jp_maximum_salary.should == 7000000
     end
     
     it "should not allow duplicate code" do
@@ -358,7 +633,10 @@ RSpec.describe Jamsostek, type: :model do
           :jkk_percentage => 0.24,
           :jkm_percentage => 0.3,
           :jht_employee_percentage => 2,
-          :jht_office_percentage => 3.7
+          :jht_office_percentage => 3.7,
+          :jp_employee_percentage => 1,
+          :jp_office_percentage => 2,
+          :jp_maximum_salary => 7000000
         )
         
       @jamsostek_2.errors.size.should_not == 0 

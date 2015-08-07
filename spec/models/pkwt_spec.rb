@@ -64,20 +64,21 @@ RSpec.describe Pkwt, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
     
       @recruitment = Recruitment.create_object(
-        :office_id => @office.id,
-        :branch_office_id => @branch_office.id,
-        :department_id => @department.id,
-        :division_id => @division.id,
-        :title_id => @title.id,
-        :level_id => @level.id,
-        :status_working_id => @status_working.id,
-        :identity_number => "1234567890",
-        :name => "Pebrian"
-      )
+            :office_id => @office.id,
+            :branch_office_id => @branch_office.id,
+            :department_id => @department.id,
+            :division_id => @division.id,
+            :title_id => @title.id,
+            :level_id => @level.id,
+            :status_working_id => @status_working.id,
+            :identity_number => "1234567890",
+            :name => "Pebrian"
+          )
   end
   
   it "should allow object creation with all required field from employee" do
@@ -263,8 +264,8 @@ RSpec.describe Pkwt, type: :model do
           @pkwt_2 = Pkwt.create_object(
               :office_id => @office.id,
               :no => @pkwt_2_no,
-              :is_employee => true,
-              :employee_id => @employee.id,
+              :is_employee => false,
+              :employee_id => @recruitment.id,
               :length_of_contract => 3,
               :start_date => DateTime.new(2015,02,01),
               :end_date => DateTime.new(2015,04,30)
@@ -303,6 +304,60 @@ RSpec.describe Pkwt, type: :model do
           @pkwt_2.should_not be_valid
       end
       
+      it "should have 1 new employee" do
+          current_identity_number = @recruitment.identity_number
+          
+          obj_employee = Employee.where{
+              (code.eq current_identity_number)
+          }
+          
+          obj_employee.count.should == 1
+      end
+      
+      it "should have 1 new employee contract for recruitment" do
+          current_identity_number = @recruitment.identity_number
+          
+          obj_employee_contract = EmployeeContract.joins(:employee).where{
+              (employee.code.eq current_identity_number)
+          }
+          
+          obj_employee_contract.count.should == 1
+      end
+      
+      it "should have 1 new employee contract for recruitment with this data" do
+          current_identity_number = @recruitment.identity_number
+          
+          obj_employee_contract = EmployeeContract.joins(:employee).where{
+              (employee.code.eq current_identity_number)
+          }.first
+          
+          obj_employee_contract.no.should == @pkwt_2_no
+          obj_employee_contract.start_date.should == DateTime.new(2015,02,01)
+          obj_employee_contract.end_date.should == DateTime.new(2015,04,30)
+      end
+      
+      it "should have 1 new employee contract for employee id" do
+          current_employee_id = @employee.id
+          
+          obj_employee_contract = EmployeeContract.where{
+              (employee_id.eq current_employee_id)
+          }
+          
+          obj_employee_contract.count.should == 1
+      end
+      
+      it "should have 1 new employee contract for employee id with this data" do
+          current_employee_id = @employee.id
+          
+          obj_employee_contract = EmployeeContract.where{
+              (employee_id.eq current_employee_id)
+          }.first
+          
+          obj_employee_contract.no.should == @pkwt_1_no
+          obj_employee_contract.start_date.should == DateTime.new(2015,01,01)
+          obj_employee_contract.end_date.should == DateTime.new(2015,03,30)
+      end
+      
       context "deleted one pkwt" do
           before(:each) do
               @pkwt.delete_object
@@ -327,6 +382,15 @@ RSpec.describe Pkwt, type: :model do
              @pkwt_2.should be_valid
           end
           
+          it "should have 0 employee contract for employee id" do
+              current_employee_id = @employee.id
+              
+              obj_employee_contract = EmployeeContract.where{
+                  (employee_id.eq current_employee_id)
+              }
+              
+              obj_employee_contract.count.should == 0
+          end
       end
   end
 end

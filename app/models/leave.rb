@@ -130,19 +130,20 @@ class Leave < ActiveRecord::Base
                 obj_leave_detail.save
                 
                 #Find shift id, start time and duration default
-                obj_shift = Shift.joins(:shift_allocations).where{
-                    (shift_allocations.employee_id.eq current_employee_id ) & 
-                    (start_time.gte 480)
-                }.first
+                obj_shift = ShiftDetail.joins(:shift => [:shift_allocations => [:employee]]).where{   
+                        (shift.shift_allocations.employee_id.eq current_employee_id ) & 
+                        (start_time.gte 480) &
+                        (day_code.eq current_date.wday)
+                    }.first
                 
                 #Insert into attendance with leave status
                 Attendance.create_object(
                     :employee_id => current_employee_id,
-                    :shift_id => obj_shift.id,
+                    :shift_id => obj_shift.shift_id,
                     :date => current_date,
                     :status => ATTENDANCE_STATUS[:leave],
                     :time_in => obj_shift.start_time,
-                    :time_out => obj_shift.start_time + obj_shift.duration,
+                    :time_out => obj_shift.start_time + (obj_shift.duration * 60),
                     :description => current_description 
                 )
             else
@@ -180,18 +181,15 @@ class Leave < ActiveRecord::Base
             obj_leave_detail.save
             
             #Find shift id, start time and duration default
-            obj_shift = Shift.joins(:shift_allocations).where{
-                (shift_allocations.employee_id.eq current_employee_id ) & 
-                (start_time.gte 480)
-            }.first
-            
             obj_attendance = Attendance.where{
                 (employee_id.eq current_employee_id) &
                 (strftime("%Y-%m-%d",date).eq current_date.to_date) &
                 (status.eq ATTENDANCE_STATUS[:leave])
             }.first
             
-            obj_attendance.destroy
+            obj_attendance.is_deleted = true
+            obj_attendance.deleted_at = DateTime.now
+            obj_attendance.save
         end
     end
     
@@ -229,7 +227,14 @@ class Leave < ActiveRecord::Base
                 (period_year.eq params[:date].year)
             }.first
             
-            obj_leave_detail.destroy
+            if not obj_leave_detail.nil?
+                obj_leave_detail.destroy
+            end
+            
+            # puts ">>>>>>>>>> inside post-condition create decree\n"*10
+            # puts " the branch_office_id: #{params[:branch_office_id]}"
+            
+            new_current_leave = new_max_leave - new_count_leave
             
             LeaveDetail.create_object(
                 :employee_id => emp.id,
@@ -241,6 +246,9 @@ class Leave < ActiveRecord::Base
                 :used_leave => new_count_leave,
                 :current_leave => new_max_leave - new_count_leave
             )
+            
+            # puts "total errors in employee object: #{object.errors.count}"
+            # object.errors.messages.each {|x| puts "err: #{x}" }
         end
     end
 end

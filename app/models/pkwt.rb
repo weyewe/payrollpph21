@@ -95,6 +95,7 @@ class Pkwt < ActiveRecord::Base
         
         if new_object.save
             current_is_employee = params[:is_employee]
+            current_start_date = params[:start_date]
             
             #Insert into employee if this data not in employee table
             if current_is_employee == false
@@ -118,6 +119,7 @@ class Pkwt < ActiveRecord::Base
                 new_level_id = object.level_id
                 new_status_working_id = object.status_working_id
                 
+                
                 @employee = Employee.create_object(
                     :office_id => new_office_id,
                     :branch_office_id => new_branch_office_id,
@@ -135,7 +137,9 @@ class Pkwt < ActiveRecord::Base
                     :gender => new_gender,
                     :religion => new_religion,
                     :phone => new_phone,
-                    :address => new_address
+                    :address => new_address,
+                    :start_working => current_start_date,
+                    :identity_number => new_identity_number
                   )
                   
                 EmployeeContract.create_object(
@@ -174,7 +178,7 @@ class Pkwt < ActiveRecord::Base
                     :employee_id => self.employee_id,
                     :no => self.no
                 ).first
-            
+
             object.update_object(
                     :employee_id => self.employee_id,
                     :start_date => self.start_date,

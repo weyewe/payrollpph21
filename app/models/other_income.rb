@@ -59,7 +59,7 @@ class OtherIncome < ActiveRecord::Base
         new_object.employee_id = params[:employee_id]
         new_object.date = params[:date]
         new_object.is_taxable = params[:is_taxable]
-        new_object.value = params[:value]
+        new_object.value = BigDecimal(params[:value] || '0')
         new_object.description = params[:description]
         
         new_object.save
@@ -72,7 +72,7 @@ class OtherIncome < ActiveRecord::Base
         self.employee_id = params[:employee_id]
         self.date = params[:date]
         self.is_taxable = params[:is_taxable]
-        self.value = params[:value]
+        self.value = BigDecimal(params[:value] || '0')
         self.description = params[:description]
         
         self.save

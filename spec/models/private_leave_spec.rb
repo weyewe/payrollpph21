@@ -64,7 +64,8 @@ RSpec.describe PrivateLeave, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -78,6 +79,11 @@ RSpec.describe PrivateLeave, type: :model do
       )
       
     private_leave.should be_valid
+    
+    private_leave.date.should == DateTime.new(2015,2,8)
+    private_leave.start_time.should == 900
+    private_leave.end_time.should == 1050
+    private_leave.description.should == "Anak Sakit"
   end
   
   it "should not allow object creation without employee id" do
@@ -242,18 +248,19 @@ RSpec.describe PrivateLeave, type: :model do
       @private_leave.should be_valid
       
       @private_leave.reload 
+      
+      @private_leave.date.should == DateTime.new(2015,3,8)
+      @private_leave.start_time.should == 900
+      @private_leave.end_time.should == 1050
+      @private_leave.description.should == "Ibu Sakit"
     end
     
     it "should be allowed to delete object 2" do
       @private_leave_2.delete_object
       
       @private_leave_2.should be_valid
-    end
-    
-    it "should not be allowed to unapprove object 2" do
-      @private_leave_2.unapprove_object
       
-      @private_leave_2.should be_valid
+      @private_leave_2.is_deleted.should be_truthy
     end
     
     context "has been deleted private leave" do
@@ -275,6 +282,11 @@ RSpec.describe PrivateLeave, type: :model do
             )
           
           @private_leave_3.should be_valid
+          
+          @private_leave_3.date.should == DateTime.new(2015,6,22)
+          @private_leave_3.start_time.should == 480
+          @private_leave_3.end_time.should == 630
+          @private_leave_3.description.should == "Ban Bocor"
         end
     end
     
@@ -287,16 +299,12 @@ RSpec.describe PrivateLeave, type: :model do
             @private_leave_2.should be_valid
         end
         
-        it "should be allowed to delete object 2" do
-          @private_leave_2.delete_object
-          
-          @private_leave_2.should be_valid
-        end
-        
         it "should be allowed to unapprove object 2" do
           @private_leave_2.unapprove_object
           
           @private_leave_2.should be_valid
+          
+          @private_leave_2.is_approved.should be_falsy
         end 
     end
     

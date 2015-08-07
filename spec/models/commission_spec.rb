@@ -64,7 +64,8 @@ RSpec.describe Commission, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -76,6 +77,9 @@ RSpec.describe Commission, type: :model do
       )
       
     commission.should be_valid
+    
+    commission.date.should == DateTime.new(2015,2,8)
+    commission.value.should == 1250000
   end
   
   it "should not allow object creation without employee id" do
@@ -152,12 +156,17 @@ RSpec.describe Commission, type: :model do
       @commission.should be_valid
       
       @commission.reload 
+      
+      @commission.date.should == DateTime.new(2015,2,8)
+      @commission.value.should == 1250000
     end
     
     it "should be allowed to delete object 2" do
       @commission_2.delete_object
       
       @commission_2.should be_valid
+      
+      @commission_2.is_deleted.should == true
     end
     
     context "has been deleted private commission" do
@@ -177,6 +186,9 @@ RSpec.describe Commission, type: :model do
             )
           
           @commission_3.should be_valid
+          
+          @commission_3.date.should == DateTime.new(2015,3,8)
+          @commission_3.value.should == 1250000
         end
     end
     

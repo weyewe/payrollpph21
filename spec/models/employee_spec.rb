@@ -67,7 +67,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should be_valid
@@ -89,10 +90,17 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
+    
+    employee.code.should == code
+    employee.full_name.should == "Pebrian"
+    employee.nick_name.should == "Pebri"
+    employee.enroll_id.should == 12
+    employee.start_working.should == DateTime.new(2014,1,1)
   end
   
   it "should not allow object creation with invalid office id" do
@@ -109,7 +117,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -129,7 +138,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -149,7 +159,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -169,7 +180,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -189,7 +201,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -209,7 +222,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -229,7 +243,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -249,7 +264,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -269,7 +285,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -289,7 +306,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -309,7 +327,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -329,7 +348,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -349,13 +369,56 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
   end
   
-  it "should not allow object creation without bank id" do
+  # it "should not allow object creation without bank id" do
+  #   code = "Prog"
+  #   employee = Employee.create_object( 
+  #       :office_id => @office.id,
+  #       :branch_office_id => @branch_office.id,
+  #       :department_id => @department.id,
+  #       :division_id => @division.id,
+  #       :title_id => @title.id,
+  #       :level_id => @level.id,
+  #       :status_working_id => "",
+  #       :code => code,
+  #       :full_name => "Pebrian",
+  #       :nick_name => "Pebri",
+  #       :enroll_id => 12,
+  #       :bank_id => "",
+  #       :start_working => DateTime.new(2014,1,1)
+  #     )
+      
+  #   employee.should_not be_valid
+  # end
+  
+  # it "should not allow object creation with invalid bank id" do
+  #   code = "007"
+  #   employee = Employee.create_object( 
+  #       :office_id => @office.id,
+  #       :branch_office_id => @branch_office.id,
+  #       :department_id => @department_id,
+  #       :division_id => @division.id,
+  #       :title_id => @title.id,
+  #       :level_id => @level.id,
+  #       :status_working_id => 0,
+  #       :code => code,
+  #       :full_name => "Pebrian",
+  #       :nick_name => "Pebri",
+  #       :enroll_id => 12,
+  #       :bank_id => 0,
+  #       :start_working => DateTime.new(2014,1,1)
+  #     )
+      
+  #   employee.should_not be_valid
+  # end
+  
+  it "should not allow object creation without start working" do
     code = "Prog"
     employee = Employee.create_object( 
         :office_id => @office.id,
@@ -369,27 +432,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => ""
-      )
-      
-    employee.should_not be_valid
-  end
-  
-  it "should not allow object creation with invalid bank id" do
-    code = "007"
-    employee = Employee.create_object( 
-        :office_id => @office.id,
-        :branch_office_id => @branch_office.id,
-        :department_id => @department_id,
-        :division_id => @division.id,
-        :title_id => @title.id,
-        :level_id => @level.id,
-        :status_working_id => 0,
-        :code => code,
-        :full_name => "Pebrian",
-        :nick_name => "Pebri",
-        :enroll_id => 12,
-        :bank_id => 0
+        :bank_id => @bank.id,
+        :start_working => ""
       )
       
     employee.should_not be_valid
@@ -409,7 +453,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -429,7 +474,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "",
         :nick_name => "Pebri",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -449,7 +495,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "",
         :enroll_id => 12,
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -469,7 +516,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "",
         :nick_name => "Pebri",
         :enroll_id => "",
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should_not be_valid
@@ -489,7 +537,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => "12",
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should be_valid
@@ -506,7 +555,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Bambang",
         :nick_name => "Bams",
         :enroll_id => "14",
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee_2.should_not be_valid
@@ -525,7 +575,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Pebrian",
         :nick_name => "Pebri",
         :enroll_id => "12",
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee.should be_valid
@@ -542,7 +593,8 @@ RSpec.describe Employee, type: :model do
         :full_name => "Bambang",
         :nick_name => "Bams",
         :enroll_id => "12",
-        :bank_id => @bank.id
+        :bank_id => @bank.id,
+        :start_working => DateTime.new(2014,1,1)
       )
       
     employee_2.should_not be_valid
@@ -553,7 +605,7 @@ RSpec.describe Employee, type: :model do
       @employee_1_code = "007"
       @employee_1_full_name = "Pebrian"
       @employee_1_nick_name = "Pebri"
-      @employee_1_enroll_id = "12"
+      @employee_1_enroll_id = 12
       @employee = Employee.create_object(
           :office_id => @office.id,
           :branch_office_id => @branch_office.id,
@@ -566,13 +618,14 @@ RSpec.describe Employee, type: :model do
           :full_name => @employee_1_full_name,
           :nick_name => @employee_1_nick_name,
           :enroll_id => @employee_1_enroll_id,
-          :bank_id => @bank.id
+          :bank_id => @bank.id,
+          :start_working => DateTime.new(2014,1,1)
         )
         
       @employee_2_code = "008"
       @employee_2_full_name = "Bambang"
       @employee_2_nick_name = "Bams"
-      @employee_2_enroll_id = "14"
+      @employee_2_enroll_id = 14
       @employee_2 = Employee.create_object(
           :office_id => @office.id,
           :branch_office_id => @branch_office.id,
@@ -585,7 +638,8 @@ RSpec.describe Employee, type: :model do
           :full_name => @employee_2_full_name,
           :nick_name => @employee_2_nick_name,
           :enroll_id => @employee_2_enroll_id,
-          :bank_id => @bank.id
+          :bank_id => @bank.id,
+          :start_working => DateTime.new(2014,1,1)
         )
     end
     
@@ -616,7 +670,8 @@ RSpec.describe Employee, type: :model do
           :full_name => new_full_name,
           :nick_name => new_nick_name,
           :enroll_id => new_enroll_id,
-          :bank_id => @bank.id
+          :bank_id => @bank.id,
+          :start_working => DateTime.new(2014,1,1)
         )
         
       @employee.should be_valid
@@ -627,6 +682,7 @@ RSpec.describe Employee, type: :model do
       @employee.full_name.should == new_full_name
       @employee.nick_name.should == new_nick_name
       @employee.enroll_id.should == new_enroll_id
+      @employee.start_working.should == DateTime.new(2014,1,1)
     end
     
     it "should not allow duplicate code" do
@@ -642,17 +698,28 @@ RSpec.describe Employee, type: :model do
           :full_name => @employee_2_full_name,
           :nick_name => @employee_2_nick_name,
           :enroll_id => @employee_2_enroll_id,
-          :bank_id => @bank.id
+          :bank_id => @bank.id,
+          :start_working => DateTime.new(2014,1,1)
         )
         
       @employee_2.errors.size.should_not == 0 
       @employee_2.should_not be_valid
+      
+      @employee_2.code.should == @employee_1_code
+      @employee_2.full_name.should == @employee_2_full_name
+      @employee_2.nick_name.should == @employee_2_nick_name
+      @employee_2.enroll_id.should == @employee_2_enroll_id
+      @employee_2.start_working.should == DateTime.new(2014,1,1)
     end
     
     it "should be allowed to delete object 2" do
       @employee_2.delete_object
       
       @employee_2.should be_valid
+      
+      @employee_2.persisted?.should be_falsy
+      
+      Employee.count.should == 1
     end
   end
   

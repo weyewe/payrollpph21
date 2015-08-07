@@ -64,7 +64,8 @@ RSpec.describe AttendanceLog, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       
       @employee_2 = Employee.create_object(
@@ -79,14 +80,15 @@ RSpec.describe AttendanceLog, type: :model do
             :full_name => "Abdul Ro'uf",
             :nick_name => "Abdul",
             :enroll_id => 13,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
       
       @shift = Shift.create_object(
             :office_id => @office.id,
             :code => "SFT",
             :name => "SHIFT",
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
           )
       
@@ -103,49 +105,49 @@ RSpec.describe AttendanceLog, type: :model do
       @shift_detail = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:sunday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_2 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:monday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_3 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:tuesday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_4 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:wednesday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_5 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:thursday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_6 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:friday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 8
          )
       
       @shift_detail_7 = ShiftDetail.create_object(
             :shift_id => @shift.id,
             :day_code => DAY_CODE[:saturday],
-            :start_time => 480,
+            :start_time => 510,
             :duration => 6
          )
   end
@@ -227,7 +229,7 @@ RSpec.describe AttendanceLog, type: :model do
         
       @attendance_log_2 = AttendanceLog.create_object(
           :office_id => @office.id,
-          :date => DateTime.new(2015,7,1,8,30,0),
+          :date => DateTime.new(2015,7,1,8,40,0),
           :enroll_id => 13,
           :in_out => 0
         )
@@ -261,6 +263,46 @@ RSpec.describe AttendanceLog, type: :model do
       @attendance_log_2.persisted?.should be_falsy  # be_truthy 
       
       AttendanceLog.count.should == 1 
+    end
+    
+    it "should attendance have 1 row" do
+        current_employee_id = @employee.id
+        
+        obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) &
+            (strftime("%Y-%m-%d",date).eq DateTime.new(2015,7,1,8,30,0).to_date)
+        }
+        
+        obj_attendance.count.should == 1
+    end
+    
+    it "should attendance have time in == 520 for first data" do
+        current_employee_id = @employee.id
+        
+        obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) &
+            (strftime("%Y-%m-%d",date).eq DateTime.new(2015,7,1,8,30,0).to_date)
+        }.first
+        
+        obj_attendance.time_in.should == 510
+        obj_attendance.shift_id.should == 1
+        obj_attendance.is_late.should == false
+        obj_attendance.status.should == ATTENDANCE_STATUS[:present]
+    end
+    
+    it "should attendance have time in == 520 for second data" do
+        current_employee_id = @employee_2.id
+        
+        obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) &
+            (strftime("%Y-%m-%d",date).eq DateTime.new(2015,7,1,8,40,0).to_date)
+        }.first
+        
+        obj_attendance.time_in.should == 520
+        obj_attendance.shift_id.should == 1
+        obj_attendance.is_late.should == true
+        obj_attendance.late_minute.should == 10
+        obj_attendance.status.should == ATTENDANCE_STATUS[:present]
     end
   end
 end

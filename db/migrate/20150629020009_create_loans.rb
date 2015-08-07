@@ -3,11 +3,11 @@ class CreateLoans < ActiveRecord::Migration
     create_table :loans do |t|
       t.integer :employee_id
       t.datetime :date
-      t.float :value
-      t.float :interest
-      t.float :total
+      t.decimal :value,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :interest,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :total,  :default => 0,  :precision => 14, :scale => 2
       t.integer :installment_time
-      t.float :installment_value
+      t.decimal :installment_value,  :default => 0,  :precision => 14, :scale => 2
       t.datetime :installment_start
       t.datetime :installment_end
       t.string :description

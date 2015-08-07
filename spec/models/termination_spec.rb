@@ -64,7 +64,8 @@ RSpec.describe Termination, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -76,6 +77,9 @@ RSpec.describe Termination, type: :model do
       )
       
     termination.should be_valid
+    
+    termination.date.should == DateTime.new(2015,2,8)
+    termination.description.should == "PHK"
   end
   
   it "should not allow object creation without employee id" do
@@ -152,19 +156,19 @@ RSpec.describe Termination, type: :model do
       @termination.should be_valid
       
       @termination.reload 
+      
+      @termination.date.should == DateTime.new(2015,3,8)
+      @termination.description.should == "Resign"
     end
     
     it "should be allowed to delete object 2" do
       @termination_2.delete_object
       
       @termination_2.should be_valid
+      
+      @termination_2.is_deleted.should be_truthy
     end
     
-    it "should not be allowed to unapprove object 2" do
-      @termination_2.unapprove_object
-      
-      @termination_2.should be_valid
-    end
     
     context "has been deleted private termination" do
         before(:each) do
@@ -183,6 +187,9 @@ RSpec.describe Termination, type: :model do
             )
           
           @termination_3.should be_valid
+          
+          @termination_3.date.should == DateTime.new(2015,6,22)
+          @termination_3.description.should == "PHK"
         end
     end
     
@@ -193,18 +200,26 @@ RSpec.describe Termination, type: :model do
         
         it "should update valid object" do
             @termination_2.should be_valid
+            
+            @termination_2.is_approved.should be_truthy
         end
         
-        it "should be allowed to delete object 2" do
-          @termination_2.delete_object
-          
-          @termination_2.should be_valid
+        it "should the employee is not active" do
+            current_employee_id = @employee.id
+            
+            obj_employee = Employee.where{
+              (id.eq current_employee_id)
+            }.first
+            
+            obj_employee.is_not_active.should be_truthy
         end
         
         it "should be allowed to unapprove object 2" do
           @termination_2.unapprove_object
           
           @termination_2.should be_valid
+          
+          @termination_2.is_approved.should be_falsy
         end 
     end
     

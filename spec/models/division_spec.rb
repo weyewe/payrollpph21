@@ -34,6 +34,7 @@ RSpec.describe Division, type: :model do
     division.should be_valid
     
     division.code.should == code
+    division.name.should == "Programmer"
   end
   
   it "should not allow object creation without office id" do

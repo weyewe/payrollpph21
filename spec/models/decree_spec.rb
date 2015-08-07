@@ -64,7 +64,8 @@ RSpec.describe Decree, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
           
       @branch_office_2 = BranchOffice.create_object(
@@ -112,6 +113,7 @@ RSpec.describe Decree, type: :model do
     decree.should be_valid
     
     decree.no.should == no
+    decree.sk_type.should == SK_TYPE[:promosi]
   end
   
   it "should allow object creation without date" do
@@ -421,6 +423,16 @@ RSpec.describe Decree, type: :model do
       @decree_2.should be_valid
     end
     
+    it "should have this place of employee" do
+      @employee.reload 
+      
+      @employee.office_id.should == @office.id
+      @employee.branch_office_id.should == @branch_office_2.id
+      @employee.department_id.should == @department_2.id
+      @employee.division_id.should == @division_2.id
+      @employee.title_id.should == @title_2.id
+    end
+    
     it "should be allowed to update" do
       new_no = "2015/08/MM/NN"
       
@@ -441,6 +453,15 @@ RSpec.describe Decree, type: :model do
       @decree.reload 
       
       @decree.no.should == new_no
+      @decree.sk_type.should == SK_TYPE[:promosi]
+      
+      @employee.reload 
+      
+      @employee.office_id.should == @office.id
+      @employee.branch_office_id.should == @branch_office_2.id
+      @employee.department_id.should == @department_2.id
+      @employee.division_id.should == @division_2.id
+      @employee.title_id.should == @title_2.id
     end
     
     it "should not allow duplicate code" do
@@ -460,13 +481,13 @@ RSpec.describe Decree, type: :model do
       @decree_2.should_not be_valid
     end
     
-    context "deleted one shift allocation" do
+    context "deleted one decree" do
         before(:each) do
             @decree.delete_object
             @decree.should be_valid
         end
         
-        it "should have deleted shift allocation" do
+        it "should have deleted decree" do
             @decree.is_deleted.should be_truthy
         end
         
@@ -484,6 +505,9 @@ RSpec.describe Decree, type: :model do
               )
         
             @decree_2.should be_valid
+            
+            @decree_2.no.should == @decree_1_no
+            @decree_2.sk_type == SK_TYPE[:penetapan]
         end
     end
   end

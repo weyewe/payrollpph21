@@ -64,7 +64,8 @@ RSpec.describe TrainingDetail, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
           
       @employee_2 = Employee.create_object(
@@ -79,7 +80,8 @@ RSpec.describe TrainingDetail, type: :model do
             :full_name => "Bambang",
             :nick_name => "Bams",
             :enroll_id => 14,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
           
       @training = Training.create_object(
@@ -250,6 +252,28 @@ RSpec.describe TrainingDetail, type: :model do
             
       end
       
+      it "should employee training have 1 row employee training data" do
+            current_employee_id = @employee_2.id
+            
+            obj_employee_training = EmployeeTraining.where{
+                  (employee_id.eq current_employee_id)
+            }
+            
+            obj_employee_training.count.should == 1
+      end
+      
+      it "should attendance have 5 row attendance data with status duty" do
+            current_employee_id = @employee_2.id
+            
+            obj_attendance = Attendance.where{
+                  (employee_id.eq current_employee_id) & 
+                  (status.eq ATTENDANCE_STATUS[:duty]) &
+                  (is_deleted.eq false)
+            }
+            
+            obj_attendance.count.should == 5
+      end
+      
       it "should not duplicate training id and employee id" do
           @training_detail_2.update_object(
                   :training_id => @training.id,
@@ -258,6 +282,7 @@ RSpec.describe TrainingDetail, type: :model do
          
           @training_detail_2.should_not be_valid
       end
+      
       context "deleted one training allocation" do
           before(:each) do
               @training_detail.delete_object
@@ -275,8 +300,32 @@ RSpec.describe TrainingDetail, type: :model do
                   )
           
              @training_detail_2.should be_valid
+             
+             @training_detail_2.training_id.should == @training_detail.training_id
+             @training_detail_2.employee_id.should == @training_detail.employee_id
           end
           
+          it "should employee training have 0 row employee training data" do
+             current_employee_id = @employee.id
+            
+             obj_employee_training = EmployeeTraining.where{
+                  (employee_id.eq current_employee_id)
+             }
+            
+             obj_employee_training.count.should == 0
+          end
+            
+          it "should attendance have 0 row attendance data with status duty" do
+              current_employee_id = @employee.id
+            
+              obj_attendance = Attendance.where{
+                  (employee_id.eq current_employee_id) & 
+                  (status.eq ATTENDANCE_STATUS[:duty]) &
+                  (is_deleted.eq false)
+              }
+            
+              obj_attendance.count.should == 0
+          end
       end
   end
 end

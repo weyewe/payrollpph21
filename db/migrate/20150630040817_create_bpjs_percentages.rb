@@ -2,8 +2,8 @@ class CreateBpjsPercentages < ActiveRecord::Migration
   def change
     create_table :bpjs_percentages do |t|
       t.integer :office_id
-      t.float :employee_percentage
-      t.float :office_percentage
+      t.decimal :employee_percentage,  :default => 0,  :precision => 14, :scale => 2
+      t.decimal :office_percentage,  :default => 0,  :precision => 14, :scale => 2
       t.integer :max_of_children
       
       t.timestamps

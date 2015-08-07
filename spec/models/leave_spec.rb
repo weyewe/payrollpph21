@@ -140,6 +140,11 @@ RSpec.describe Leave, type: :model do
             :used_leave => 7,
             :current_leave => 5
          )
+      
+      @generate_leave = Leave.generate_object(
+            :office_id => @office.id,
+            :date => DateTime.now
+         )
   end
   
   it "should allow object creation with all required field" do
@@ -150,6 +155,9 @@ RSpec.describe Leave, type: :model do
       )
       
     leave.should be_valid
+    
+    leave.date.should == DateTime.new(2015,2,8)
+    leave.description.should == "Anak Sakit"
   end
   
   it "should not allow object creation without employee id" do
@@ -232,7 +240,10 @@ RSpec.describe Leave, type: :model do
         
       @leave.should be_valid
       
-      @leave.reload 
+      @leave.reload
+      
+      @leave.date.should == DateTime.new(2015,3,8)
+      @leave.description.should == "Ibu Sakit"
     end
     
     it "should be allowed to delete object 2" do
@@ -242,9 +253,9 @@ RSpec.describe Leave, type: :model do
     end
     
     it "should not be allowed to unapprove object 2" do
-      @leave_2.unapprove_object
+        @leave_2.unapprove_object
       
-      @leave_2.should be_valid
+        @leave_2.should be_valid
     end
     
     context "has been deleted leave" do
@@ -267,7 +278,7 @@ RSpec.describe Leave, type: :model do
         end
     end
     
-    context "has been approved private leave" do
+    context "has been approved leave" do
         before(:each) do
             @leave_2.approve_object
         end
@@ -276,10 +287,41 @@ RSpec.describe Leave, type: :model do
             @leave_2.should be_valid
         end
         
-        it "should be allowed to delete object 2" do
-          @leave_2.delete_object
+        it "should have 1 attendance" do
+          current_employee_id = @employee.id
+          obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) & 
+            (strftime("%Y-%m-%d",date).eq DateTime.new(2015,6,22).to_date) & 
+            (status.eq ATTENDANCE_STATUS[:leave]) & 
+            (is_deleted.eq false)
+          }
           
-          @leave_2.should be_valid
+          obj_attendance.count.should == 1
+        end
+    
+        it "should have attendance data with status leave" do
+          current_employee_id = @employee.id
+          obj_attendance = Attendance.where{
+            (employee_id.eq current_employee_id) & 
+            (strftime("%Y-%m-%d",date).eq DateTime.new(2015,6,22).to_date) & 
+            (status.eq ATTENDANCE_STATUS[:leave]) & 
+            (is_deleted.eq false)
+          }.first
+          
+          obj_attendance.date.should == DateTime.new(2015,6,22)
+          obj_attendance.status == ATTENDANCE_STATUS[:leave]
+        end
+        
+        it "should leave detail minus 1 leave" do
+          current_employee_id = @employee.id
+          obj_leave_detail = LeaveDetail.where{
+                (employee_id.eq current_employee_id) &
+                ((strftime("%Y-%m-%d",start_period).lte DateTime.new(2015,6,22).to_date) &
+                    (strftime("%Y-%m-%d",end_period).gte DateTime.new(2015,6,22).to_date))
+            }.first
+          
+          obj_leave_detail.used_leave.should == 1
+          obj_leave_detail.current_leave.should == 11
         end
         
         it "should be allowed to unapprove object 2" do
@@ -287,6 +329,46 @@ RSpec.describe Leave, type: :model do
           
           @leave_2.should be_valid
         end 
+        
+        context "has been unapproved leave" do
+            before(:each) do
+                @leave_2.unapprove_object
+            end
+            
+            it "should update valid object" do
+                @leave_2.should be_valid
+            end
+            
+            it "should have 0 attendance" do
+              current_employee_id = @employee.id
+              obj_attendance = Attendance.where{
+                (employee_id.eq current_employee_id) & 
+                (strftime("%Y-%m-%d",date).eq DateTime.new(2015,6,22).to_date) & 
+                (status.eq ATTENDANCE_STATUS[:leave]) & 
+                (is_deleted.eq false)
+              }
+              
+              obj_attendance.count.should == 0
+            end
+            
+            it "should leave detail plus 1 leave" do
+              current_employee_id = @employee.id
+              obj_leave_detail = LeaveDetail.where{
+                    (employee_id.eq current_employee_id) &
+                    ((strftime("%Y-%m-%d",start_period).lte DateTime.new(2015,6,22).to_date) &
+                        (strftime("%Y-%m-%d",end_period).gte DateTime.new(2015,6,22).to_date))
+                }.first
+              
+              obj_leave_detail.used_leave.should == 0
+              obj_leave_detail.current_leave.should == 12
+            end
+            
+            it "should be allowed to delete object 2" do
+              @leave_2.delete_object
+              
+              @leave_2.should be_valid
+            end
+        end
     end
     
   end

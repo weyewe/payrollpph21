@@ -64,7 +64,8 @@ RSpec.describe OtherExpense, type: :model do
             :full_name => "Pebrian",
             :nick_name => "Pebri",
             :enroll_id => 12,
-            :bank_id => @bank.id
+            :bank_id => @bank.id,
+            :start_working => DateTime.new(2014,1,1)
           )
   end
   
@@ -77,6 +78,10 @@ RSpec.describe OtherExpense, type: :model do
       )
       
     other_expense.should be_valid
+    
+    other_expense.date.should == DateTime.new(2015,2,8)
+    other_expense.is_taxable.should == true
+    other_expense.value.should == 1250000
   end
   
   it "should not allow object creation without employee id" do
@@ -171,12 +176,19 @@ RSpec.describe OtherExpense, type: :model do
       @other_expense.should be_valid
       
       @other_expense.reload 
+      
+      @other_expense.date.should == DateTime.new(2015,2,8)
+      @other_expense.is_taxable.should == false
+      @other_expense.value.should == 1250000
+    
     end
     
     it "should be allowed to delete object 2" do
       @other_expense_2.delete_object
       
       @other_expense_2.should be_valid
+      
+      @other_expense_2.is_deleted.should == true
     end
     
     context "has been deleted private other_expense" do
@@ -197,6 +209,10 @@ RSpec.describe OtherExpense, type: :model do
             )
           
           @other_expense_3.should be_valid
+          
+          @other_expense_3.date.should == DateTime.new(2015,3,8)
+          @other_expense_3.is_taxable.should == true
+          @other_expense_3.value.should == 1250000
         end
     end
     

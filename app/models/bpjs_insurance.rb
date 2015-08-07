@@ -61,7 +61,7 @@ class BpjsInsurance < ActiveRecord::Base
         new_object.employee_id = params[:employee_id]
         new_object.date = params[:date]
         new_object.no = params[:no]
-        new_object.premi = params[:premi]
+        new_object.premi = BigDecimal(params[:premi]|| '0')
         new_object.description = params[:description]
         new_object.is_active = params[:is_active]
         
@@ -75,7 +75,7 @@ class BpjsInsurance < ActiveRecord::Base
         self.employee_id = params[:employee_id]
         self.date = params[:date]
         self.no = params[:no]
-        self.premi = params[:premi]
+        self.premi = BigDecimal(params[:premi]|| '0')
         self.description = params[:description]
         self.is_active = params[:is_active]
         

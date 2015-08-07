@@ -8,6 +8,9 @@ class Jamsostek < ActiveRecord::Base
     validates_presence_of :jkm_percentage
     validates_presence_of :jht_employee_percentage
     validates_presence_of :jht_office_percentage
+    validates_presence_of :jp_employee_percentage
+    validates_presence_of :jp_office_percentage
+    validates_presence_of :jp_maximum_salary
     validates_presence_of :office_id
     
     validate :valid_office_id
@@ -15,6 +18,9 @@ class Jamsostek < ActiveRecord::Base
     validate :valid_zero_jkm_percentage
     validate :valid_zero_jht_employee_percentage
     validate :valid_zero_jht_office_percentage
+    validate :valid_zero_jp_employee_percentage
+    validate :valid_zero_jp_office_percentage
+    validate :valid_zero_jp_maximum_salary
     validate :unique_code
     
     def unique_code
@@ -84,6 +90,33 @@ class Jamsostek < ActiveRecord::Base
         end
     end
     
+    def valid_zero_jp_employee_percentage
+        return if not jp_employee_percentage.present?
+        
+        if jp_employee_percentage <= 0
+            self.errors.add(:jp_employee_percentage, "JP Employee Percentage harus lebih besar dari 0")
+            return self
+        end
+    end
+    
+    def valid_zero_jp_office_percentage
+        return if not jp_office_percentage.present?
+        
+        if jp_office_percentage <= 0
+            self.errors.add(:jp_office_percentage, "JP Office Percentage harus lebih besar dari 0")
+            return self
+        end
+    end
+    
+    def valid_zero_jp_maximum_salary
+        return if not jp_maximum_salary.present?
+        
+        if jp_maximum_salary <= 0
+            self.errors.add(:jp_maximum_salary, "JP Maximum salary harus lebih besar dari 0")
+            return self
+        end
+    end
+    
     #object.create_object
     def self.create_object( params ) 
         new_object = self.new
@@ -95,6 +128,9 @@ class Jamsostek < ActiveRecord::Base
         new_object.jkm_percentage = params[:jkm_percentage]
         new_object.jht_employee_percentage = params[:jht_employee_percentage]
         new_object.jht_office_percentage = params[:jht_office_percentage]
+        new_object.jp_employee_percentage = params[:jp_employee_percentage]
+        new_object.jp_office_percentage = params[:jp_office_percentage]
+        new_object.jp_maximum_salary = params[:jp_maximum_salary]
         
         new_object.save
         
@@ -110,6 +146,9 @@ class Jamsostek < ActiveRecord::Base
         self.jkm_percentage = params[:jkm_percentage]
         self.jht_employee_percentage = params[:jht_employee_percentage]
         self.jht_office_percentage = params[:jht_office_percentage]
+        self.jp_employee_percentage = params[:jp_employee_percentage]
+        self.jp_office_percentage = params[:jp_office_percentage]
+        self.jp_maximum_salary = params[:jp_maximum_salary]
         
         self.save
         

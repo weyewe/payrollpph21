@@ -2,6 +2,8 @@ class Attendance < ActiveRecord::Base
     belongs_to :employee
     belongs_to :shift
     
+    has_many :attendances
+    
     validates_presence_of :employee_id
     validates_presence_of :shift_id
     validates_presence_of :date

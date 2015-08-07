@@ -50,11 +50,11 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "bpjs_insurances", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.integer  "no"
-    t.float    "premi"
+    t.string   "no"
+    t.decimal  "premi",       precision: 14, scale: 2, default: 0.0
     t.string   "description"
-    t.boolean  "is_active",   default: true
-    t.boolean  "is_deleted",  default: false
+    t.boolean  "is_active",                            default: true
+    t.boolean  "is_deleted",                           default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 20150728072618) do
 
   create_table "bpjs_percentages", force: true do |t|
     t.integer  "office_id"
-    t.float    "employee_percentage"
-    t.float    "office_percentage"
+    t.decimal  "employee_percentage", precision: 14, scale: 2, default: 0.0
+    t.decimal  "office_percentage",   precision: 14, scale: 2, default: 0.0
     t.integer  "max_of_children"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -106,9 +106,9 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "commissions", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.float    "value"
+    t.decimal  "value",       precision: 14, scale: 2, default: 0.0
     t.string   "description"
-    t.boolean  "is_deleted",  default: false
+    t.boolean  "is_deleted",                           default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -268,8 +268,8 @@ ActiveRecord::Schema.define(version: 20150728072618) do
     t.integer  "gender"
     t.integer  "religion"
     t.string   "address"
-    t.string   "no_jamsostek"
-    t.datetime "jamsostek_registered_date"
+    t.string   "no_jamsostek",              default: ""
+    t.datetime "jamsostek_registered_date", default: '2015-08-06 07:17:51'
     t.integer  "bank_id"
     t.string   "bank_account"
     t.string   "bank_account_name"
@@ -298,10 +298,13 @@ ActiveRecord::Schema.define(version: 20150728072618) do
     t.integer  "office_id"
     t.string   "code"
     t.string   "name"
-    t.float    "jkk_percentage"
-    t.float    "jkm_percentage"
-    t.float    "jht_employee_percentage"
-    t.float    "jht_office_percentage"
+    t.decimal  "jkk_percentage",          precision: 14, scale: 2, default: 0.0
+    t.decimal  "jkm_percentage",          precision: 14, scale: 2, default: 0.0
+    t.decimal  "jht_employee_percentage", precision: 14, scale: 2, default: 0.0
+    t.decimal  "jht_office_percentage",   precision: 14, scale: 2, default: 0.0
+    t.decimal  "jp_employee_percentage",  precision: 14, scale: 2, default: 0.0
+    t.decimal  "jp_office_percentage",    precision: 14, scale: 2, default: 0.0
+    t.decimal  "jp_maximum_salary",       precision: 14, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -355,9 +358,11 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "loan_details", force: true do |t|
     t.integer  "loan_id"
     t.datetime "month"
-    t.float    "amount"
-    t.boolean  "is_paid",     default: false
-    t.boolean  "is_closed",   default: false
+    t.decimal  "amount",      precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_paid",                              default: false
+    t.boolean  "is_closed",                            default: false
+    t.boolean  "is_deleted",                           default: false
+    t.datetime "deleted_at"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -366,15 +371,15 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "loans", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.float    "value"
-    t.float    "interest"
-    t.float    "total"
+    t.decimal  "value",             precision: 14, scale: 2, default: 0.0
+    t.decimal  "interest",          precision: 14, scale: 2, default: 0.0
+    t.decimal  "total",             precision: 14, scale: 2, default: 0.0
     t.integer  "installment_time"
-    t.float    "installment_value"
+    t.decimal  "installment_value", precision: 14, scale: 2, default: 0.0
     t.datetime "installment_start"
     t.datetime "installment_end"
     t.string   "description"
-    t.boolean  "is_deleted",        default: false
+    t.boolean  "is_deleted",                                 default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -408,10 +413,10 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "other_expenses", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.boolean  "is_taxable",  default: true
-    t.float    "value"
+    t.boolean  "is_taxable",                           default: true
+    t.decimal  "value",       precision: 14, scale: 2, default: 0.0
     t.string   "description"
-    t.boolean  "is_deleted",  default: false
+    t.boolean  "is_deleted",                           default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -420,10 +425,10 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "other_incomes", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.boolean  "is_taxable",  default: true
-    t.float    "value"
+    t.boolean  "is_taxable",                           default: true
+    t.decimal  "value",       precision: 14, scale: 2, default: 0.0
     t.string   "description"
-    t.boolean  "is_deleted",  default: false
+    t.boolean  "is_deleted",                           default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -504,10 +509,10 @@ ActiveRecord::Schema.define(version: 20150728072618) do
 
   create_table "pph21_details", force: true do |t|
     t.integer  "pph21_id"
-    t.integer  "percentage"
-    t.float    "from_value"
-    t.float    "to_value"
-    t.boolean  "is_up",       default: false
+    t.decimal  "percentage",  precision: 14, scale: 2, default: 0.0
+    t.decimal  "from_value",  precision: 14, scale: 2, default: 0.0
+    t.decimal  "to_value",    precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_up",                                default: false
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -515,11 +520,11 @@ ActiveRecord::Schema.define(version: 20150728072618) do
 
   create_table "pph21_non_employee_allocations", force: true do |t|
     t.integer  "pph21_non_employee_id"
-    t.float    "bruto_value"
-    t.float    "dpp_value",             default: 0.0
-    t.float    "prosen_dpp",            default: 0.0
-    t.float    "prosen_pph",            default: 0.0
-    t.float    "pph21_value",           default: 0.0
+    t.decimal  "bruto_value",           precision: 14, scale: 2, default: 0.0
+    t.decimal  "dpp_value",             precision: 14, scale: 2, default: 0.0
+    t.decimal  "prosen_dpp",            precision: 14, scale: 2, default: 0.0
+    t.decimal  "prosen_pph",            precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph21_value",           precision: 14, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -529,9 +534,11 @@ ActiveRecord::Schema.define(version: 20150728072618) do
     t.string   "nik"
     t.string   "name"
     t.string   "address"
-    t.string   "npwp",        default: ""
+    t.string   "npwp",               default: ""
+    t.integer  "marital_status"
+    t.integer  "number_of_children"
     t.integer  "tax_code_id"
-    t.integer  "npwp_method", default: 0
+    t.integer  "npwp_method",        default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -547,11 +554,11 @@ ActiveRecord::Schema.define(version: 20150728072618) do
 
   create_table "preferences", force: true do |t|
     t.integer  "office_id"
-    t.float    "ot_divider"
-    t.float    "biaya_jabatan_percentage"
-    t.float    "biaya_jabatan_max"
-    t.float    "pph_non_npwp_percentage"
-    t.float    "dpp_percentage"
+    t.decimal  "ot_divider",               precision: 14, scale: 2, default: 0.0
+    t.decimal  "biaya_jabatan_percentage", precision: 14, scale: 2, default: 0.0
+    t.decimal  "biaya_jabatan_max",        precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph_non_npwp_percentage",  precision: 14, scale: 2, default: 0.0
+    t.decimal  "dpp_percentage",           precision: 14, scale: 2, default: 0.0
     t.integer  "pph21_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -575,7 +582,7 @@ ActiveRecord::Schema.define(version: 20150728072618) do
     t.integer  "ptkp_id"
     t.integer  "marital_status"
     t.integer  "number_of_children"
-    t.float    "value"
+    t.decimal  "value",              precision: 14, scale: 2, default: 0.0
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -679,9 +686,9 @@ ActiveRecord::Schema.define(version: 20150728072618) do
   create_table "thrs", force: true do |t|
     t.integer  "employee_id"
     t.datetime "date"
-    t.float    "value"
+    t.decimal  "value",       precision: 14, scale: 2, default: 0.0
     t.string   "description"
-    t.boolean  "is_deleted",  default: false
+    t.boolean  "is_deleted",                           default: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -763,32 +770,43 @@ ActiveRecord::Schema.define(version: 20150728072618) do
 
   create_table "wage_transactions", force: true do |t|
     t.integer  "employee_id"
-    t.datetime "month"
-    t.float    "basic_salary",                default: 0.0
-    t.float    "seniority_allowance",         default: 0.0
-    t.float    "functional_allowance",        default: 0.0
-    t.float    "meal_allowance",              default: 0.0
-    t.float    "transport_allowance",         default: 0.0
-    t.float    "phone_allowance",             default: 0.0
-    t.float    "medical_allowance",           default: 0.0
-    t.float    "overtime",                    default: 0.0
-    t.float    "pph21_allowance",             default: 0.0
-    t.float    "other_allowance_taxable",     default: 0.0
-    t.float    "other_allowance_non_taxable", default: 0.0
-    t.float    "thr",                         default: 0.0
-    t.float    "commission",                  default: 0.0
-    t.float    "jkk",                         default: 0.0
-    t.float    "jkm",                         default: 0.0
-    t.float    "jht_company",                 default: 0.0
-    t.float    "bpjs_company",                default: 0.0
-    t.float    "other_expense_taxable",       default: 0.0
-    t.float    "other_expense_non_taxable",   default: 0.0
-    t.float    "loan",                        default: 0.0
-    t.float    "cooperative_dues",            default: 0.0
-    t.float    "jht_employee",                default: 0.0
-    t.float    "bpjs_employee",               default: 0.0
-    t.float    "pph21_value",                 default: 0.0
-    t.float    "pph21_non_npwp",              default: 0.0
+    t.integer  "year"
+    t.integer  "month"
+    t.decimal  "basic_salary",                precision: 14, scale: 2, default: 0.0
+    t.decimal  "seniority_allowance",         precision: 14, scale: 2, default: 0.0
+    t.decimal  "functional_allowance",        precision: 14, scale: 2, default: 0.0
+    t.decimal  "meal_allowance",              precision: 14, scale: 2, default: 0.0
+    t.decimal  "transport_allowance",         precision: 14, scale: 2, default: 0.0
+    t.decimal  "phone_allowance",             precision: 14, scale: 2, default: 0.0
+    t.decimal  "medical_allowance",           precision: 14, scale: 2, default: 0.0
+    t.decimal  "overtime",                    precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph21_allowance",             precision: 14, scale: 2, default: 0.0
+    t.decimal  "other_allowance_taxable",     precision: 14, scale: 2, default: 0.0
+    t.decimal  "other_allowance_non_taxable", precision: 14, scale: 2, default: 0.0
+    t.decimal  "thr",                         precision: 14, scale: 2, default: 0.0
+    t.decimal  "commission",                  precision: 14, scale: 2, default: 0.0
+    t.decimal  "jkk",                         precision: 14, scale: 2, default: 0.0
+    t.decimal  "jkm",                         precision: 14, scale: 2, default: 0.0
+    t.decimal  "jht_company",                 precision: 14, scale: 2, default: 0.0
+    t.decimal  "jp_company",                  precision: 14, scale: 2, default: 0.0
+    t.decimal  "bpjs_company",                precision: 14, scale: 2, default: 0.0
+    t.decimal  "other_expense_taxable",       precision: 14, scale: 2, default: 0.0
+    t.decimal  "other_expense_non_taxable",   precision: 14, scale: 2, default: 0.0
+    t.decimal  "loan",                        precision: 14, scale: 2, default: 0.0
+    t.decimal  "cooperative_dues",            precision: 14, scale: 2, default: 0.0
+    t.decimal  "jht_employee",                precision: 14, scale: 2, default: 0.0
+    t.decimal  "jp_employee",                 precision: 14, scale: 2, default: 0.0
+    t.decimal  "bpjs_employee",               precision: 14, scale: 2, default: 0.0
+    t.decimal  "bruto",                       precision: 14, scale: 2, default: 0.0
+    t.decimal  "biaya_jabatan",               precision: 14, scale: 2, default: 0.0
+    t.decimal  "netto",                       precision: 14, scale: 2, default: 0.0
+    t.decimal  "netto_yearly",                precision: 14, scale: 2, default: 0.0
+    t.decimal  "ptkp",                        precision: 14, scale: 2, default: 0.0
+    t.decimal  "pkp",                         precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph_yearly",                  precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph21_value",                 precision: 14, scale: 2, default: 0.0
+    t.decimal  "pph21_non_npwp",              precision: 14, scale: 2, default: 0.0
+    t.decimal  "sisa_gaji",                   precision: 14, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -799,22 +817,22 @@ ActiveRecord::Schema.define(version: 20150728072618) do
     t.integer  "pph21_id"
     t.integer  "ptkp_id"
     t.integer  "jamsostek_id"
-    t.boolean  "is_daily_basic",          default: false
-    t.float    "basic_salary",            default: 0.0
-    t.boolean  "is_daily_seniority",      default: false
-    t.float    "seniority_allowance",     default: 0.0
-    t.boolean  "is_daily_functional",     default: false
-    t.float    "functional_allowance",    default: 0.0
-    t.boolean  "is_daily_meal",           default: false
-    t.float    "meal_allowance",          default: 0.0
-    t.boolean  "is_daily_transport",      default: false
-    t.float    "transport_allowance",     default: 0.0
-    t.boolean  "is_daily_communication",  default: false
-    t.float    "communication_allowance", default: 0.0
-    t.boolean  "is_daily_medical",        default: false
-    t.float    "medical_allowance",       default: 0.0
-    t.boolean  "is_cooperative_member",   default: false
-    t.float    "cooperative_dues"
+    t.boolean  "is_daily_basic",                                   default: false
+    t.decimal  "basic_salary",            precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_seniority",                               default: false
+    t.decimal  "seniority_allowance",     precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_functional",                              default: false
+    t.decimal  "functional_allowance",    precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_meal",                                    default: false
+    t.decimal  "meal_allowance",          precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_transport",                               default: false
+    t.decimal  "transport_allowance",     precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_communication",                           default: false
+    t.decimal  "communication_allowance", precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_daily_medical",                                 default: false
+    t.decimal  "medical_allowance",       precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_cooperative_member",                            default: false
+    t.decimal  "cooperative_dues",        precision: 14, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

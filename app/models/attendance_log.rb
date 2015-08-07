@@ -47,15 +47,32 @@ class AttendanceLog < ActiveRecord::Base
                 
                 if obj_attendance.nil?
                     #Find shift id, start time and end time default
-                    obj_shift = Shift.joins(:shift_allocations).where{
-                        (shift_allocations.employee_id.eq current_employee_id) & 
+                    # obj_shift = Shift.joins(:shift_allocations).where{
+                    #     (shift_allocations.employee_id.eq current_employee_id) & 
+                    #     ((start_time.gte current_check_time) |
+                    #         (start_time.lte current_check_time))
+                    # }.first
+                    
+                    #Query with join
+                    obj_shift = ShiftDetail.joins(:shift => [:shift_allocations => [:employee]]).where{   
+                        (shift.shift_allocations.employee_id.eq current_employee_id ) & 
                         ((start_time.gte current_check_time) |
-                            (start_time.lte current_check_time))
+                            (start_time.lte current_check_time)) &
+                        (day_code.eq params[:date].wday)
                     }.first
+                    
+                    # puts obj_shift.inspect
+                    
+                    # obj_shift = Shift.shift_details.where{
+                    #     joins(:shift_allocations).where{
+                    #     (shift_allocations.employee_id.eq current_employee_id) & 
+                    #     ((start_time.gte current_check_time) |
+                    #         (start_time.lte current_check_time))
+                    # }.first
                 
                     Attendance.create_object(
                         :employee_id => current_employee_id,
-                        :shift_id => obj_shift.id,
+                        :shift_id => obj_shift.shift_id,
                         :date => params[:date],
                         :status => ATTENDANCE_STATUS[:present],
                         :time_in => current_check_time

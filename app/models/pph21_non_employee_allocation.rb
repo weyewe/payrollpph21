@@ -55,43 +55,44 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
             #Get PPh21
             total_pph = 0
             prosen_pph = 0
+            new_dpp_calculate = new_dpp
                 
             #Mencari Tarif PPh21
-            if (current_npwp_method != 2)
+            if (current_npwp_method != 3)
                 Pph21Detail.where{
                     (pph21_id.eq current_pph21_id)
                 }.each do |pph|
                     if (pph.is_up == false) #Hingga tak terbatas (is up)
-                        if (new_dpp > pph.to_value)
+                        if (new_dpp_calculate > pph.to_value)
                             prosen_pph = pph.percentage
                             
                             total_pph = total_pph + ((pph.percentage/100)*(pph.to_value-pph.from_value))
                             
-                            new_dpp = new_dpp - (pph.to_value-pph.from_value)
+                            new_dpp_calculate = new_dpp_calculate - (pph.to_value-pph.from_value)
                             
-                            if (new_dpp < 0)
-                                new_dpp = 0
+                            if (new_dpp_calculate < 0)
+                                new_dpp_calculate = 0
                             end
                         else
-                            if (new_dpp > 0)
+                            if (new_dpp_calculate > 0)
                                 prosen_pph = pph.percentage
                                 
-                                total_pph = total_pph + (pph.percentage/100*new_dpp)
+                                total_pph = total_pph + (pph.percentage/100*new_dpp_calculate)
                                 
-                                new_dpp = new_dpp - (pph.to_value-pph.from_value)
+                                new_dpp_calculate = new_dpp_calculate - (pph.to_value-pph.from_value)
                             
-                                if (new_dpp < 0)
-                                    new_dpp = 0
+                                if (new_dpp_calculate < 0)
+                                    new_dpp_calculate = 0
                                 end
                             else
                                 total_pph = total_pph + 0
                             end
                         end
                     else
-                        if (new_dpp > pph.from_value)
+                        if (new_dpp_calculate > pph.from_value)
                             prosen_pph = pph.percentage
                             
-                            total_pph = total_pph + ((pph.percentage/100) * (new_dpp - pph.from_value))
+                            total_pph = total_pph + ((pph.percentage/100) * (new_dpp_calculate - pph.from_value))
                         else
                             total_pph = total_pph + 0
                         end
@@ -104,15 +105,17 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
                     new_pph_max = (pph.percentage / 100) * (pph.to_value - pph.from_value)
                     new_pph_batas_pkp = pph.to_value - ((pph.percentage / 100) * pph.to_value)
                     
-                    if new_dpp < new_pph_batas_pkp
-                        prosen_pph = pph.percentage
-                        
+                    if new_dpp_calculate < new_pph_batas_pkp
                         if (pph.from_value == 0)
-                            total_pph = (new_dpp - pph.from_value) * (pph.percentage / (100 - pph.percentage)) + pph.from_value
-                            new_dpp = 0
+                            prosen_pph = pph.percentage
+                            
+                            total_pph = (new_dpp_calculate - pph.from_value) * (pph.percentage / (100 - pph.percentage)) + pph.from_value
+                            new_dpp_calculate = 0
                         else
-                            if (new_dpp != 0)
-                                total_pph = (new_dpp - new_pph_batas_pkp) * (pph.percentage / (100 - pph.percentage)) + new_pph_max
+                            if (new_dpp_calculate != 0)
+                                prosen_pph = pph.percentage
+                                
+                                total_pph = (new_dpp_calculate - new_pph_batas_pkp) * (pph.percentage / (100 - pph.percentage)) + new_pph_max
                             end
                         end
                     else
@@ -120,8 +123,9 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
                     end
                 end
             end
+            total_pph = total_pph.round
             
-            if (current_npwp != "")
+            if (current_npwp == "")
                 new_pph21_non_npwp = total_pph * (current_pph_non_npwp_percentage/100)
             else
                 new_pph21_non_npwp = 0
@@ -130,9 +134,11 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
             #Get PPh21 after check NPWP
             new_pph21 = total_pph + new_pph21_non_npwp
             
-            if (current_npwp_method == 2)
+            
+            if (current_npwp_method == 3)
                 new_tax_allowance = new_pph21
-                new_dpp = new_dpp + new_tax_allowance
+                new_dpp = new_dpp + (new_tax_allowance / 2) 
+                new_dpp = new_dpp.round
             end
             
             new_object.dpp_value = new_dpp
@@ -170,43 +176,44 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
             #Get PPh21
             total_pph = 0
             prosen_pph = 0
+            new_dpp_calculate = new_dpp
             
             #Mencari Tarif PPh21
-            if (current_npwp_method != 2)
+            if (current_npwp_method != 3)
                 Pph21Detail.where{
                     (pph21_id.eq current_pph21_id)
                 }.each do |pph|
                     if (pph.is_up == false) #Hingga tak terbatas (is up)
-                        if (new_dpp > pph.to_value)
+                        if (new_dpp_calculate > pph.to_value)
                             prosen_pph = pph.percentage
                             
                             total_pph = total_pph + ((pph.percentage/100)*(pph.to_value-pph.from_value))
                             
-                            new_dpp = new_dpp - (pph.to_value-pph.from_value)
+                            new_dpp_calculate = new_dpp_calculate - (pph.to_value-pph.from_value)
                             
-                            if (new_dpp < 0)
-                                new_dpp = 0
+                            if (new_dpp_calculate < 0)
+                                new_dpp_calculate = 0
                             end
                         else
-                            if (new_dpp > 0)
+                            if (new_dpp_calculate > 0)
                                 prosen_pph = pph.percentage
                                 
-                                total_pph = total_pph + (pph.percentage/100*new_dpp)
+                                total_pph = total_pph + (pph.percentage/100*new_dpp_calculate)
                                 
-                                new_dpp = new_dpp - (pph.to_value-pph.from_value)
+                                new_dpp_calculate = new_dpp_calculate - (pph.to_value-pph.from_value)
                             
-                                if (new_dpp < 0)
-                                    new_dpp = 0
+                                if (new_dpp_calculate < 0)
+                                    new_dpp_calculate = 0
                                 end
                             else
                                 total_pph = total_pph + 0
                             end
                         end
                     else
-                        if (new_dpp > pph.from_value)
+                        if (new_dpp_calculate > pph.from_value)
                             prosen_pph = pph.percentage
                             
-                            total_pph = total_pph + ((pph.percentage/100) * (new_dpp - pph.from_value))
+                            total_pph = total_pph + ((pph.percentage/100) * (new_dpp_calculate - pph.from_value))
                         else
                             total_pph = total_pph + 0
                         end
@@ -219,15 +226,17 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
                     new_pph_max = (pph.percentage / 100) * (pph.to_value - pph.from_value)
                     new_pph_batas_pkp = pph.to_value - ((pph.percentage / 100) * pph.to_value)
                     
-                    if new_dpp < new_pph_batas_pkp
-                        prosen_pph = pph.percentage
-                        
+                    if new_dpp_calculate < new_pph_batas_pkp
                         if (pph.from_value == 0)
-                            total_pph = (new_dpp - pph.from_value) * (pph.percentage / (100 - pph.percentage)) + pph.from_value
-                            new_dpp = 0
+                            prosen_pph = pph.percentage
+                            
+                            total_pph = (new_dpp_calculate - pph.from_value) * (pph.percentage / (100 - pph.percentage)) + pph.from_value
+                            new_dpp_calculate = 0
                         else
-                            if (new_dpp != 0)
-                                total_pph = (new_dpp - new_pph_batas_pkp) * (pph.percentage / (100 - pph.percentage)) + new_pph_max
+                            if (new_dpp_calculate != 0)
+                                prosen_pph = pph.percentage
+                                
+                                total_pph = (new_dpp_calculate - new_pph_batas_pkp) * (pph.percentage / (100 - pph.percentage)) + new_pph_max
                             end
                         end
                     else
@@ -235,8 +244,9 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
                     end
                 end
             end
+            total_pph = total_pph.round
             
-            if (current_npwp != "")
+            if (current_npwp == "")
                 new_pph21_non_npwp = total_pph * (current_pph_non_npwp_percentage/100)
             else
                 new_pph21_non_npwp = 0
@@ -245,9 +255,10 @@ class Pph21NonEmployeeAllocation < ActiveRecord::Base
             #Get PPh21 after check NPWP
             new_pph21 = total_pph + new_pph21_non_npwp
             
-            if (current_npwp_method == 2)
+            if (current_npwp_method == 3)
                 new_tax_allowance = new_pph21
-                new_dpp = new_dpp + new_tax_allowance
+                new_dpp = new_dpp + (new_tax_allowance / 2) 
+                new_dpp = new_dpp.round
             end
             
             self.dpp_value = new_dpp
