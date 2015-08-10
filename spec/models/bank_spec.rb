@@ -67,7 +67,7 @@ RSpec.describe Bank, type: :model do
   
   it "should not allow object creation with duplicate code" do
     code = "BCA"
-    bank =  Bank.create_object( 
+    bank = Bank.create_object( 
         :office_id => @office.id,
         :code =>  code,
         :name => "Bank Central Asia"

@@ -169,7 +169,7 @@ RSpec.describe Commission, type: :model do
       @commission_2.is_deleted.should == true
     end
     
-    context "has been deleted private commission" do
+    context "has been deleted commission" do
         before(:each) do
             @commission_2.delete_object
         end

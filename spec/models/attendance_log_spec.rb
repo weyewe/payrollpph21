@@ -285,7 +285,7 @@ RSpec.describe AttendanceLog, type: :model do
         }.first
         
         obj_attendance.time_in.should == 510
-        obj_attendance.shift_id.should == 1
+        obj_attendance.shift_id.should == @shift.id
         obj_attendance.is_late.should == false
         obj_attendance.status.should == ATTENDANCE_STATUS[:present]
     end
@@ -299,7 +299,7 @@ RSpec.describe AttendanceLog, type: :model do
         }.first
         
         obj_attendance.time_in.should == 520
-        obj_attendance.shift_id.should == 1
+        obj_attendance.shift_id.should == @shift.id
         obj_attendance.is_late.should == true
         obj_attendance.late_minute.should == 10
         obj_attendance.status.should == ATTENDANCE_STATUS[:present]

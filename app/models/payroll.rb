@@ -394,15 +394,19 @@ class Payroll < ActiveRecord::Base
                         
                         #Get JKK Value
                         new_jkk = (obj_jstk.jkk_percentage / 100) * new_basic_salary
+                        new_jkk = new_jkk.round
                         
                         #Get JKM Value
                         new_jkm = (obj_jstk.jkm_percentage / 100) * new_basic_salary
+                        new_jkm = new_jkm.round
                         
                         #Get JHT Employee Value
                         new_jht_employee = (obj_jstk.jht_employee_percentage / 100) * new_basic_salary
+                        new_jht_employee = new_jht_employee.round
                         
                         #Get JHT Company Value
                         new_jht_office = (obj_jstk.jht_office_percentage / 100) * new_basic_salary
+                        new_jht_office = new_jht_office.round
                         
                         #Get JP Employee Value
                         if (new_basic_salary >= obj_jstk.jp_maximum_salary)
@@ -410,6 +414,7 @@ class Payroll < ActiveRecord::Base
                         else
                             new_jp_employee = (obj_jstk.jp_employee_percentage / 100) * new_basic_salary
                         end
+                        new_jp_employee = new_jp_employee.round
                         
                         #Get JP Company Value
                         if (new_basic_salary >= obj_jstk.jp_maximum_salary)
@@ -417,6 +422,7 @@ class Payroll < ActiveRecord::Base
                         else
                             new_jp_office = (obj_jstk.jp_office_percentage / 100) * new_basic_salary
                         end
+                        new_jp_office = new_jp_office.round
                     else
                         #Get JKK Value
                         new_jkk = 0
@@ -477,9 +483,11 @@ class Payroll < ActiveRecord::Base
                     
                     #Get BPJS Employee Value
                     new_bpjs_employee = (obj_bpjs.employee_percentage / 100) * current_premi
+                    new_bpjs_employee = new_bpjs_employee.round
                     
                     #Get BPJS Company Value
                     new_bpjs_office = (obj_bpjs.office_percentage / 100) * current_premi
+                    new_bpjs_office = new_bpjs_office.round
                 else
                     #Get BPJS Employee Value
                     new_bpjs_employee = 0
