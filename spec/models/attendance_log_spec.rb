@@ -226,6 +226,13 @@ RSpec.describe AttendanceLog, type: :model do
           :enroll_id => 12,
           :in_out => 0
         )
+      
+      @attendance_log_3 = AttendanceLog.create_object(
+          :office_id => @office.id,
+          :date => DateTime.new(2015,7,1,17,00,0),
+          :enroll_id => 12,
+          :in_out => 1
+        )
         
       @attendance_log_2 = AttendanceLog.create_object(
           :office_id => @office.id,
@@ -236,7 +243,7 @@ RSpec.describe AttendanceLog, type: :model do
     end
     
     it "should have 2 objects" do
-      AttendanceLog.count.should == 2 
+      AttendanceLog.count.should == 3
     end
     
     it "should create valid objects" do
@@ -255,6 +262,10 @@ RSpec.describe AttendanceLog, type: :model do
       @attendance_log.should be_valid
       
       @attendance_log.reload
+      
+      @attendance_log.date.should == DateTime.new(2015,7,1,8,40,0)
+      @attendance_log.enroll_id.should == 12
+      @attendance_log.in_out.should == 0
     end
     
     it "should be allowed to delete object 2" do
@@ -262,7 +273,7 @@ RSpec.describe AttendanceLog, type: :model do
       
       @attendance_log_2.persisted?.should be_falsy  # be_truthy 
       
-      AttendanceLog.count.should == 1 
+      AttendanceLog.count.should == 2 
     end
     
     it "should attendance have 1 row" do
@@ -285,6 +296,7 @@ RSpec.describe AttendanceLog, type: :model do
         }.first
         
         obj_attendance.time_in.should == 510
+        obj_attendance.time_out.should == 1020
         obj_attendance.shift_id.should == @shift.id
         obj_attendance.is_late.should == false
         obj_attendance.status.should == ATTENDANCE_STATUS[:present]

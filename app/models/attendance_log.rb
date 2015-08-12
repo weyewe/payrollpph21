@@ -96,9 +96,8 @@ class AttendanceLog < ActiveRecord::Base
                     (strftime("%Y-%m-%d",date).eq params[:date].to_date)
                 }.first
                 
-                obj_attendance.update_object(
-                    :time_out => current_check_time
-                )
+                obj_attendance.time_out = current_check_time
+                obj_attendance.save
             end
         end
         

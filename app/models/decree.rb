@@ -175,26 +175,26 @@ class Decree < ActiveRecord::Base
                 current_department_id != self.department_id or 
                 current_division_id != self.division_id or 
                 current_title_id != self.title_id
-            
+                
                 object = Employee.where(
                         :office_id => self.office_id,
                         :id => self.employee_id
-                    )
+                    ).first
                 
-                object.office_id = current_office_id
-                object.branch_office_id = current_branch_office_id
-                object.department_id = current_department_id
-                object.division_id = current_division_id
-                object.title_id = current_title_id
+                object.office_id = params[:office_id]
+                object.branch_office_id = params[:branch_office_id]
+                object.department_id = params[:department_id]
+                object.division_id = params[:division_id]
+                object.title_id = params[:title_id]
                 object.save
                 
                 EmployeeOffice.create_object(
                     :employee_id => self.employee_id,
-                    :office_id => current_office_id,
-                    :branch_office_id => current_branch_office_id,
-                    :department_id => current_department_id,
-                    :division_ide => current_division_id,
-                    :title_id => current_title_id
+                    :office_id => params[:office_id],
+                    :branch_office_id => params[:branch_office_id],
+                    :department_id => params[:department_id],
+                    :division_ide => params[:division_id],
+                    :title_id => params[:title_id]
                 )
             end
         end

@@ -34,6 +34,12 @@ RSpec.describe Employee, type: :model do
             :name => "Junior Programmer"
           )
       
+      @title_2 = Title.create_object(
+            :office_id => @office.id,
+            :code => "J008",
+            :name => "Senior Programmer"
+          )
+      
       @level = Level.create_object(
             :office_id => @office.id,
             :code => "STF",
@@ -663,7 +669,7 @@ RSpec.describe Employee, type: :model do
           :branch_office_id => @branch_office.id,
           :department_id => @department.id,
           :division_id => @division.id,
-          :title_id => @title.id,
+          :title_id => @title_2.id,
           :level_id => @level.id,
           :status_working_id => @status_working.id,
           :code => new_code,
@@ -683,6 +689,7 @@ RSpec.describe Employee, type: :model do
       @employee.nick_name.should == new_nick_name
       @employee.enroll_id.should == new_enroll_id
       @employee.start_working.should == DateTime.new(2014,1,1)
+      @employee.title_id.should == @title_2.id
     end
     
     it "should not allow duplicate code" do

@@ -634,10 +634,12 @@ class Payroll < ActiveRecord::Base
                         end
                     end
                 else
+                    new_pph_max = 0
+                    
                     Pph21Detail.where{
                         (pph21_id.eq obj_salary.pph21_id)
                     }.each do |pph|
-                        new_pph_max = (pph.percentage / 100) * (pph.to_value - pph.from_value)
+                        new_pph_max = (pph.percentage / 100) * (pph.to_value - pph.from_value) + new_pph_max
                         new_pph_batas_pkp = pph.to_value - ((pph.percentage / 100) * pph.to_value)
                         
                         if new_pkp_calculate < new_pph_batas_pkp

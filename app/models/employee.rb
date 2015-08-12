@@ -278,11 +278,11 @@ class Employee < ActiveRecord::Base
                 
             EmployeeOffice.create_object(
                     :employee_id => self.id,
-                    :office_id => current_office_id,
-                    :branch_office_id => current_branch_office_id,
-                    :department_id => current_department_id,
-                    :division_ide => current_division_id,
-                    :title_id => current_title_id
+                    :office_id => params[:office_id],
+                    :branch_office_id => params[:branch_office_id],
+                    :department_id => params[:department_id],
+                    :division_ide => params[:division_id],
+                    :title_id => params[:title_id]
                 )
             end
         end

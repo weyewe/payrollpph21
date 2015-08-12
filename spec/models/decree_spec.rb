@@ -444,7 +444,7 @@ RSpec.describe Decree, type: :model do
           :branch_office_id => @branch_office_2.id,
           :department_id => @department_2.id,
           :division_id => @division_2.id,
-          :title_id => @title_2.id,
+          :title_id => @title.id,
           :sk_type => SK_TYPE[:promosi]
         )
         
@@ -461,7 +461,7 @@ RSpec.describe Decree, type: :model do
       @employee.branch_office_id.should == @branch_office_2.id
       @employee.department_id.should == @department_2.id
       @employee.division_id.should == @division_2.id
-      @employee.title_id.should == @title_2.id
+      @employee.title_id.should == @title.id
     end
     
     it "should not allow duplicate code" do
